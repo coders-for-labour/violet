@@ -14,7 +14,8 @@ var express = require('express');
 var methodOverride = require('method-override');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
+// var MongoStore = require('connect-mongo')(session);
+var LevelStore = require('level-session-store')(session);
 var morgan = require('morgan');
 var Logging = require('./logging');
 var Config = require('./config');
@@ -32,31 +33,34 @@ var _map = {
   'production': 'prod',
   'test': 'test'
 };
+Config.env = _map[_env];
 
-var mongoStoreSettings = {
-  url: `mongodb://${Config.mongoUrl[_map[_env]]}/${Config.app.code}-sessions`,
-  db: `${Config.app.code}-sessions`,
-  host: Config.mongoUrl[_map[_env]],
-  collect: 'sessions'
+
+// var mongoStoreSettings = {
+//   url: `mongodb://${Config.mongoUrl[_map[_env]]}/${Config.app.code}-sessions`,
+//   db: `${Config.app.code}-sessions`,
+//   host: Config.mongoUrl[_map[_env]],
+//   collect: 'sessions'
+// };
+
+var levelStoreSettings = {
+
 };
 
 /**
  * Configuration
  */
 var configureDevelopment = () => {
-  Config.env = 'dev';
   app.use(morgan('short'));
   app.set('port', Config.listenPort.dev);
 };
 
 var configureProduction = () => {
-  Config.env = 'prod';
   app.use(morgan('short'));
   app.set('port', Config.listenPort.prod);
 };
 
 var configureTest = () => {
-  Config.env = 'test';
   app.use(morgan('short'));
   app.set('port', Config.listenPort.test);
 };
@@ -71,7 +75,8 @@ var configureApp = env => {
     saveUninitialized: false,
     resave: false,
     secret: 'asdknjszsjh485uvep9',
-    store: new MongoStore(mongoStoreSettings)
+    // store: new MongoStore(mongoStoreSettings)
+    store: new LevelStore()
   }));
 
   app.use(passport.initialize());
