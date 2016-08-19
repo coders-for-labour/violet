@@ -1,0 +1,45 @@
+{
+  "global": {
+    "app": {
+      "title": "Violet",
+      "description": "Social media tools for grassroots movements.",
+      "code": "violet",
+      "version": "v0.0.1",
+      "protocol": "http",
+      "subdomain": "violet",
+      "domain": "codersforcorbyn.com"
+    }
+  },
+  "local": {
+    "environment": {
+      "VIOLET_SERVER_ID": "",
+      "VIOLET_TW_CONSUMER_KEY": "",
+      "VIOLET_TW_CONSUMER_SECRET": "",
+      "VIOLET_BLOCK_ACCOUNTS_JSON": ""
+    },
+    "workstation1": {
+      "mongoUrl": {
+        "dev": "localhost",
+        "prod": "localhost",
+        "test": "localhost"
+      },
+      "listenPort": {
+        "dev": 6011,
+        "prod": 6010,
+        "test": 6012
+      }
+    },
+    "yubaba": {
+      "mongoUrl": {
+        "dev": "localhost",
+        "prod": "localhost",
+        "test": "localhost"
+      },
+      "listenPort": {
+        "dev": 6001,
+        "prod": 6000,
+        "test": 6002
+      }
+    }
+  }
+}

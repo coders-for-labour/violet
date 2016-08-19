@@ -1,0 +1,38 @@
+doctype html
+// if lt IE 7
+  html.no-js.lt-ie9.lt-ie8.lt-ie7
+// if IE 7
+  html.no-js.lt-ie9.lt-ie8.lt-ie7
+// if IE *
+  html.no-js.lt-ie9.lt-ie8.lt-ie7
+// if gt IE 8
+  html.no-js
+head
+  meta(charset="utf-8")
+  meta(http-equiv="X-UA-Compatible",content="IE=edge,chrome=1")
+  title Social Tools for Jez
+  meta(name="description", content="")
+  meta(name="viewport", content="width=device-width, minimum-scale=1.0, initial-scale=1.0")
+
+  link(rel="stylesheet", href="/styles/main.css" async)
+  link(href='//fonts.googleapis.com/css?family=Open+Sans:100,200,300,400' rel='stylesheet' type='text/css' async)
+body
+  //if lt IE 7
+    p.chromeframe You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.
+
+  //if lt IE 9
+    script(src="/components/es5-shim.js")
+    script(src="/components/json3.min.js")
+
+  button.press
+    a(href='/auth/twitter') Connect Twitter
+
+  //-script.
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q || []).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  script(src="/components/jquery/dist/jquery.min.js" async)
+  script(src="/components/sugar/release/sugar.min.js" async)
+  script(src="/scripts/app.min.js" async)

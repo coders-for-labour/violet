@@ -1,0 +1,19 @@
+{
+  "name": "violet",
+  "version": "0.0.1",
+  "dependencies": {
+    "json3": "~3.3.2",
+    "es5-shim": "~4.5.6",
+    "sugar": "~1.4.1",
+    "jquery": "^3.1.0"
+  },
+  "devDependencies": {},
+  "overrides": {
+    "jquery": {
+      "main": [
+        "dist/jquery.min.js",
+        "dist/jquery.min.map"
+      ]
+    }
+  }
+}
