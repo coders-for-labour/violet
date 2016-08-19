@@ -16,6 +16,10 @@ var passport = require('passport');
 var TwitterStrategy = require('passport-twitter');
 
 module.exports.init = (app) => {
+  app.get('/api/v1/auth', (req, res) => {
+    res.json(req.user);
+  });
+
   app.get('/auth/twitter',
     passport.authenticate('twitter')
   );

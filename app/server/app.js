@@ -20,6 +20,7 @@ var Logging = require('./logging');
 var Config = require('./config');
 var passport = require('passport');
 var auth = require('./auth');
+var tools = require('./tools');
 
 /**
  * Express
@@ -78,6 +79,7 @@ var configureApp = env => {
   app.use(express.static(__dirname + '/static'));
 
   auth.init(app);
+  tools.init(app);
 
   switch (env) {
     default:

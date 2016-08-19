@@ -1,11 +1,23 @@
 "use strict";
 
 $().ready(function() {
-  $('.press').click(function(ev){
-    $.getJSON('http://dev.rhizome.com/api/v1/app', function(data){
-      console.log(data);
-    });
+  $.getJSON('/api/v1/auth', function(user){
+    if ( !user ) {
+      $('.press').removeClass('hide');
+    } else {
+      $('#welcome').removeClass('hide');
+
+    }
+  });
+
+  $('#do-authenticate').click(function(ev){
 
   })
+
+  $('#do-block').click(function(){
+    $.getJSON('/api/v1/twitter/block', function(results){
+      console.log(results);
+    });
+  });
 })
 
