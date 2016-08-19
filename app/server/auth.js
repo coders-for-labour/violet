@@ -17,7 +17,12 @@ var TwitterStrategy = require('passport-twitter');
 
 module.exports.init = (app) => {
   app.get('/api/v1/auth', (req, res) => {
-    res.json(req.user);
+    res.json(req.user ? {username: req.user.username, name: req.user.name, images: req.user.images} : false);
+  });
+
+  app.get('/logout', function(req, res){
+    req.logout();
+    res.redirect('/');
   });
 
   app.get('/auth/twitter',
@@ -38,7 +43,7 @@ module.exports.init = (app) => {
       callbackURL: "http://dev.violet.com/auth/twitter/callback"
     },
     function(token, tokenSecret, profile, cb) {
-      Logging.log(profile);
+      // Logging.log(profile);
       // Logging.log(profile);
       // User.findOrCreate({ twitterId: profile.id }, function (err, user) {
       //   return cb(err, user);
@@ -58,13 +63,13 @@ module.exports.init = (app) => {
   ));
 
   passport.serializeUser((user, done) => {
-    Logging.log("serialise");
-    Logging.log(user);
+    // Logging.log("serialise");
+    // Logging.log(user);
     done(null,user);
   })
   passport.deserializeUser((user, done) => {
-    Logging.log("deserialise");
-    Logging.log(user);
+    // Logging.log("deserialise");
+    // Logging.log(user);
     done(null,user);
   })
 };
