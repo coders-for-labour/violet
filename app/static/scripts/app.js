@@ -19,5 +19,10 @@ $().ready(function() {
       console.log(results);
     });
   });
+  $('#do-get-tweets').click(function(){
+    $.getJSON('/api/v1/twitter/statuses', function(results){
+      console.log(results);
+    });
+  });
 })
 
