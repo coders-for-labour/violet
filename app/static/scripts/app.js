@@ -2,11 +2,11 @@
 
 $().ready(function() {
   $.getJSON('/api/v1/auth', function(user){
+    console.log(user);
     if ( !user ) {
-      $('.press').removeClass('hide');
+      $('#do-authenticate').removeClass('hide');
     } else {
       $('#welcome').removeClass('hide');
-
     }
   });
 
