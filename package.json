@@ -24,6 +24,9 @@
     "twitter": "^1.4.0"
   },
   "devDependencies": {
+    "eslint": "^3.3.0",
+    "eslint-config-google": "^0.6.0",
+    "eslint-config-xo": "^0.15.3",
     "gulp": "^3.9.1",
     "gulp-bower": "^0.0.13",
     "main-bower-files": "^2.11.1",

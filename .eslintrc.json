@@ -1,0 +1,11 @@
+{
+  "extends": "google",
+  "rules": {
+    "camelcase": ["error", {"properties": "never"}],
+    "max-len": [
+      2,
+      120,
+      4
+    ]
+  }
+}
