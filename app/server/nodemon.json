@@ -1,0 +1,10 @@
+{
+  "restartable": "rs",
+  "ignore": [
+    "static/"
+  ],
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "ext": "js"
+}
