@@ -15,14 +15,10 @@
       "VIOLET_SERVER_ID": "",
       "VIOLET_TW_CONSUMER_KEY": "",
       "VIOLET_TW_CONSUMER_SECRET": "",
-      "VIOLET_BLOCK_ACCOUNTS_JSON": ""
+      "VIOLET_BLOCKLIST_URL": ""
+
     },
     "workstation1": {
-      "mongoUrl": {
-        "dev": "localhost",
-        "prod": "localhost",
-        "test": "localhost"
-      },
       "listenPort": {
         "dev": 6011,
         "prod": 6010,
@@ -30,11 +26,6 @@
       }
     },
     "yubaba": {
-      "mongoUrl": {
-        "dev": "localhost",
-        "prod": "localhost",
-        "test": "localhost"
-      },
       "listenPort": {
         "dev": 6001,
         "prod": 6000,
