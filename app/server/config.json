@@ -19,6 +19,7 @@
 
     },
     "workstation1": {
+      "callbackDomain": "http://dev.violet.com/",
       "listenPort": {
         "dev": 6011,
         "prod": 6010,
@@ -26,6 +27,7 @@
       }
     },
     "yubaba": {
+      "callbackDomain": "http://violet.codersforcorbyn.com/",
       "listenPort": {
         "dev": 6011,
         "prod": 6010,

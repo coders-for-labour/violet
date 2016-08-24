@@ -40,7 +40,7 @@ module.exports.init = app => {
   passport.use(new TwitterStrategy({
     consumerKey: Config.VIOLET_TW_CONSUMER_KEY,
     consumerSecret: Config.VIOLET_TW_CONSUMER_SECRET,
-    callbackURL: 'http://dev.violet.com/auth/twitter/callback'
+    callbackURL: `${Config.callbackDomain}/auth/twitter/callback`
   },
   function(token, tokenSecret, profile, cb) {
     Logging.log(profile, Logging.Constants.LogLevel.VERBOSE);
