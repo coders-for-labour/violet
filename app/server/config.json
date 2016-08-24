@@ -27,9 +27,9 @@
     },
     "yubaba": {
       "listenPort": {
-        "dev": 6001,
-        "prod": 6000,
-        "test": 6002
+        "dev": 6011,
+        "prod": 6010,
+        "test": 6012
       }
     }
   }
