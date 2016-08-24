@@ -19,7 +19,7 @@
 
     },
     "workstation1": {
-      "callbackDomain": "http://dev.violet.com/",
+      "callbackDomain": "http://dev.violet.com",
       "listenPort": {
         "dev": 6011,
         "prod": 6010,
