@@ -27,7 +27,7 @@
       }
     },
     "yubaba": {
-      "callbackDomain": "http://violet.codersforcorbyn.com/",
+      "callbackDomain": "http://violet.codersforcorbyn.com",
       "listenPort": {
         "dev": 6011,
         "prod": 6010,
