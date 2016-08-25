@@ -108,3 +108,6 @@ rest.get(Config.VIOLET_BLOCKLIST_URL, {timeout: 5000})
     app.blockList = data;
   });
 
+app.get('*', (req, res, next) => {
+  res.sendFile(`${__dirname}/static/index.html`);
+});

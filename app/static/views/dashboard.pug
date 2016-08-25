@@ -1,0 +1,6 @@
+.dashboard-page
+  h3 Top Heroes
+  .grid.grid-pad
+    .col-1-4(*ngFor="let hero of heroes", (click)="gotoDetailHero(hero)")
+      .module.hero
+        h4 {{hero.name}}

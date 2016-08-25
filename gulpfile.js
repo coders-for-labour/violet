@@ -10,6 +10,8 @@ var concat = require('gulp-concat');
 var livereload = require('gulp-livereload');
 var bower = require('gulp-bower');
 var bowerfiles = require('main-bower-files');
+var typescript = require('gulp-typescript');
+var tscConfig = require('./tsconfig.json');
 
 /**
  *
@@ -43,11 +45,23 @@ gulp.task('app-scripts', function() {
  */
 gulp.task('scripts', function() {
   return gulp.src('app/static/scripts/**/*.js')
-    .pipe(concat('app.js'))
+    .pipe(concat('app.javascript.js'))
     .pipe(gulp.dest('deploy/static/scripts'))
-    .pipe(rename('app.min.js'))
+    .pipe(rename('app.javascript.min.js'))
     .pipe(uglify())
     .pipe(gulp.dest('deploy/static/scripts'))
+    .pipe(livereload({auto: false}));
+});
+
+gulp.task('type-scripts', function() {
+  return gulp.src([
+    'app/static/scripts/**/*.ts'])
+    .pipe(typescript(tscConfig.compilerOptions))
+    // .pipe(concat('app.js'))
+    .pipe(gulp.dest('deploy/static/scripts'))
+    // .pipe(rename('app.min.js'))
+    // .pipe(uglify())
+    // .pipe(gulp.dest('deploy/static/scripts'))
     .pipe(livereload({auto: false}));
 });
 
@@ -104,9 +118,28 @@ gulp.task('json', function() {
   return gulp.src('app/server/*.json')
       .pipe(gulp.dest('deploy'));
 });
+gulp.task('ng', function() {
+  return gulp.src([
+    'node_modules/core-js/client/shim.min.js',
+    'node_modules/core-js/client/shim.min.js.map',
+    'node_modules/zone.js/dist/zone.js',
+    'node_modules/reflect-metadata/Reflect.js',
+    'node_modules/reflect-metadata/Reflect.js.map',
+    'node_modules/systemjs/dist/system.src.js',
+    'node_modules/rxjs/**/*',
+    'node_modules/@angular/core/bundles/core.umd.js',
+    'node_modules/@angular/common/bundles/common.umd.js',
+    'node_modules/@angular/compiler/bundles/compiler.umd.js',
+    'node_modules/@angular/forms/bundles/forms.umd.js',
+    'node_modules/@angular/http/bundles/http.umd.js',
+    'node_modules/@angular/router/bundles/router.umd.js',
+    'node_modules/@angular/platform-browser/bundles/platform-browser.umd.js',
+    'node_modules/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js'
+  ], {base: 'node_modules'}).pipe(gulp.dest('deploy/static/modules'));
+});
 
 gulp.task('resources', function() {
-  return gulp.start(['mongroup', 'json']);
+  return gulp.start(['mongroup', 'json', 'ng']);
 });
 
 /**
@@ -114,7 +147,7 @@ gulp.task('resources', function() {
  */
 gulp.task('watch', ['clean'], function() {
   livereload.listen();
-  gulp.start('app-scripts', 'scripts', 'views', 'styles', 'resources', 'images', 'bower-files');
+  gulp.start('app-scripts', 'scripts', 'type-scripts', 'views', 'styles', 'resources', 'images', 'bower-files');
 
   // Watch Images
   gulp.watch('app/static/images/**/*.png', ['images-full']);
@@ -122,6 +155,7 @@ gulp.task('watch', ['clean'], function() {
   // Watch Styles
   gulp.watch('app/static/styles/**/*.less', ['styles-app']);
   // Watch Scripts
+  gulp.watch('app/static/scripts/**/*.ts', ['type-scripts']);
   gulp.watch('app/static/scripts/**/*.js', ['scripts']);
   gulp.watch(['app/**/*.js', '!app/static/**/*.js'], ['app-scripts']);
   // Watch Views files
@@ -175,5 +209,5 @@ gulp.task('clean', function() {
  *
  */
 gulp.task('build', ['clean'], function() {
-  return gulp.start('app-scripts', 'scripts', 'views', 'styles-app', 'bower-files', 'resources', 'images');
+  return gulp.start('app-scripts', 'type-scripts', 'scripts', 'views', 'styles-app', 'bower-files', 'resources', 'images');
 });
