@@ -21,7 +21,6 @@ var Config = require('./config');
 var passport = require('passport');
 var auth = require('./auth');
 var twitter = require('./twitter');
-var rest = require('restler');
 
 /**
  * Express
@@ -99,18 +98,13 @@ Logging.log(`${Config.app.title} listening on port ${app.get('port')} in ${app.s
             Logging.Constants.LogLevel.INFO);
 app.server = app.listen(app.set('port'));
 
-/**
- *
- */
-rest.get(Config.VIOLET_BLOCKLIST_URL, {timeout: 5000})
-  .on('success', data => {
-    Logging.log(data, Logging.Constants.LogLevel.VERBOSE);
-    app.blockList = data;
-  });
-
-app.get('/:mode(dashboard|detail|heroes)?', (req, res, next) => {
+app.get('/:mode(dashboard|detail|blocklist|voted)?/:id?', (req, res, next) => {
   res.sendFile(`${__dirname}/static/index.html`);
 });
+
+// app.get('/detail/:id?', (req, res, next) => {
+//   res.sendFile(`${__dirname}/static/index.html`);
+// });
 
 var heroes = {data: [
   {id: 11, name: 'Mr. Nice'},
