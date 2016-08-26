@@ -35,7 +35,7 @@ var _cacheImages = () => {
 };
 
 var _drawImage = (ctx, imgData) => {
-  return new Promise((resolve,reject) {
+  return new Promise((resolve,reject) => {
     var image = new Image();
     image.dataMode = Image.MODE_IMAGE;
     image.onload = () => {
