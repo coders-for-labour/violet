@@ -21,6 +21,7 @@ var Config = require('./config');
 var passport = require('passport');
 var auth = require('./auth');
 var twitter = require('./twitter');
+var Canvas = require('./canvas');
 
 /**
  * Express
@@ -71,6 +72,7 @@ var configureApp = env => {
 
   auth.init(app);
   twitter.init(app);
+  Canvas.init(app);
 
   switch (env) {
     default:
@@ -98,6 +100,6 @@ Logging.log(`${Config.app.title} listening on port ${app.get('port')} in ${app.s
             Logging.Constants.LogLevel.INFO);
 app.server = app.listen(app.set('port'));
 
-app.get('/:mode(dashboard|detail|blocklist|voted)?/:id?', (req, res, next) => {
+app.get('/:mode(dashboard|detail|blocklist|voted)/:id?', (req, res, next) => {
   res.sendFile(`${__dirname}/static/index.html`);
 });

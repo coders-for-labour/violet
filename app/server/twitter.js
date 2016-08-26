@@ -183,7 +183,7 @@ var _loadBlocklist = app => {
           };
         });
         // Logging.log(list);
-        Logging.log(data[0], Logging.Constants.LogLevel.VERBOSE);
+        Logging.log(data[0], Logging.Constants.LogLevel.INFO);
         Logging.log(`Blocklist Length: ${data.length}`, Logging.Constants.LogLevel.INFO);
         app.blockList = list;
       });
