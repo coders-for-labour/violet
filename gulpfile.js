@@ -12,6 +12,7 @@ var bower = require('gulp-bower');
 var bowerfiles = require('main-bower-files');
 var typescript = require('gulp-typescript');
 var tscConfig = require('./tsconfig.json');
+// var tsProject = typescript.createProject('tsconfig.json');
 
 /**
  *
@@ -54,8 +55,7 @@ gulp.task('scripts', function() {
 });
 
 gulp.task('type-scripts', function() {
-  return gulp.src([
-    'app/static/scripts/**/*.ts'])
+  return gulp.src(['app/static/scripts/**/*.ts'])
     .pipe(typescript(tscConfig.compilerOptions))
     // .pipe(concat('app.js'))
     .pipe(gulp.dest('deploy/static/scripts'))
@@ -127,6 +127,7 @@ gulp.task('ng', function() {
     'node_modules/reflect-metadata/Reflect.js.map',
     'node_modules/systemjs/dist/system.src.js',
     'node_modules/rxjs/**/*',
+    'node_modules/angular2-in-memory-web-api/*.js',
     'node_modules/@angular/core/bundles/core.umd.js',
     'node_modules/@angular/common/bundles/common.umd.js',
     'node_modules/@angular/compiler/bundles/compiler.umd.js',

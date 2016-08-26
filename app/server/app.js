@@ -108,6 +108,39 @@ rest.get(Config.VIOLET_BLOCKLIST_URL, {timeout: 5000})
     app.blockList = data;
   });
 
-app.get('*', (req, res, next) => {
+app.get('/:mode(dashboard|detail|heroes)?', (req, res, next) => {
   res.sendFile(`${__dirname}/static/index.html`);
+});
+
+var heroes = {data: [
+  {id: 11, name: 'Mr. Nice'},
+  {id: 12, name: 'Narco'},
+  {id: 13, name: 'Bombasto'},
+  {id: 14, name: 'Celeritas'},
+  {id: 15, name: 'Magneta'},
+  {id: 16, name: 'RubberMan'},
+  {id: 17, name: 'Dynama'},
+  {id: 18, name: 'Dr IQ'},
+  {id: 19, name: 'Magma'},
+  {id: 20, name: 'Tornado'}
+]};
+
+app.get('/api/heroes', (req, res, next) => {
+  res.json(heroes);
+});
+app.post('/api/heroes', (req, res, next) => {
+  var hero = req.body;
+  hero.id = heroes.data[heroes.data.length - 1].id + 1;
+  console.log(hero);
+  heroes.data.push(hero);
+  res.json(hero);
+});
+app.delete('/api/heroes/:id', (req, res, next) => {
+  var hero = heroes.find(h => h.id === req.params.id);
+  if (!hero) {
+    res.sendStatus(400);
+    return;
+  }
+
+  res.sendStatus(200);
 });
