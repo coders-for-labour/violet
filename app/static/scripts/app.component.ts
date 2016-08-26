@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, enableProdMode } from '@angular/core';
 import { AuthService } from './auth.service';
+enableProdMode();
 
 @Component({
   selector: 'c4c-app',
