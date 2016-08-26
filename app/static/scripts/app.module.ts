@@ -3,17 +3,19 @@ import { BrowserModule }  from '@angular/platform-browser';
 import { FormsModule }    from '@angular/forms';
 import { HttpModule }    from '@angular/http';
 
-import { XHRBackend } from '@angular/http';
-import { InMemoryBackendService, SEED_DATA } from 'angular2-in-memory-web-api';
-import { InMemoryDataService }               from './in-memory-data.service';
+//import { XHRBackend } from '@angular/http';
+//import { InMemoryBackendService, SEED_DATA } from 'angular2-in-memory-web-api';
+//import { InMemoryDataService }               from './in-memory-data.service';
 
 import { AppComponent }   from './app.component';
 import { routing }        from './app.routing';
 
-import { HeroesComponent }  from './heroes.component';
-import { HeroDetailComponent }  from './hero-detail.component';
 import { DashboardComponent }  from './dashboard.component';
-import { HeroService }  from './hero.service';
+import { BlocklistComponent }  from './blocklist.component';
+import { TwitterProfileDetailComponent }  from './twitter-profile-detail.component';
+
+import { AuthService }  from './auth.service';
+import { BlocklistService }  from './blocklist.service';
 
 @NgModule({
   imports: [
@@ -24,12 +26,13 @@ import { HeroService }  from './hero.service';
   ],
   declarations: [
     AppComponent,
-    HeroesComponent,
-    HeroDetailComponent,
-    DashboardComponent
+    DashboardComponent,
+    BlocklistComponent,
+    TwitterProfileDetailComponent
   ],
   providers: [
-    HeroService,
+    AuthService,
+    BlocklistService,
    // { provide: XHRBackend, useClass: InMemoryBackendService }, // in-mem server
    // { provide: SEED_DATA,  useClass: InMemoryDataService }     // in-mem server data
   ],

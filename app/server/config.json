@@ -15,8 +15,9 @@
       "VIOLET_SERVER_ID": "",
       "VIOLET_TW_CONSUMER_KEY": "",
       "VIOLET_TW_CONSUMER_SECRET": "",
+      "VIOLET_TW_ACCESS_TOKEN": "",
+      "VIOLET_TW_ACCESS_TOKEN_SECRET": "",
       "VIOLET_BLOCKLIST_URL": ""
-
     },
     "workstation1": {
       "callbackDomain": "http://dev.violet.com",

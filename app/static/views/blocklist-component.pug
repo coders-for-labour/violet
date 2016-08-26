@@ -1,0 +1,10 @@
+.blocklist-component
+  .error(*ngIf="error") {{error}}
+  .info(*ngIf="result") {{result}}
+  button.btn.btn-default(type="button", [disabled]="working", (click)="onBlockAll()") Block All
+  #blocklist
+    .blocklist
+      li( *ngFor="let profile of blocklist")
+        img(src="{{profile.images.profile}}")
+        a(routerLink="/detail/{{profile.id}}") @{{profile.username}}
+  button.btn.btn-default(type="button", [disabled]="working", (click)="onBlockAll()") Block All

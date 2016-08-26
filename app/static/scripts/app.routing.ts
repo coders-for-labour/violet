@@ -1,14 +1,13 @@
 import { Routes, RouterModule } from '@angular/router';
 
-import { AppComponent }      from './app.component';
-import { HeroesComponent }      from './heroes.component';
-import { HeroDetailComponent }      from './hero-detail.component';
 import { DashboardComponent }      from './dashboard.component';
+import { BlocklistComponent }      from './blocklist.component';
+import { TwitterProfileDetailComponent }      from './twitter-profile-detail.component';
 
 const appRoutes: Routes = [
   {
-    path: 'heroes',
-    component: HeroesComponent
+    path: 'blocklist',
+    component: BlocklistComponent
   },
   {
     path: 'dashboard',
@@ -16,7 +15,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'detail/:id',
-    component: HeroDetailComponent
+    component: TwitterProfileDetailComponent
   },
   {
     path: '',

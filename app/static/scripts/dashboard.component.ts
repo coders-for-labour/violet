@@ -1,27 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { HeroService } from './hero.service';
-import { Hero } from './hero.component';
+import { AuthService } from './auth.service';
+import { Auth } from './auth.component';
 
 @Component({
   selector: 'my-dashboard',
-  templateUrl: 'views/dashboard.html',
+  templateUrl: 'views/dashboard-component.html',
 })
 export class DashboardComponent implements OnInit {
-  heroes: Hero[] = [];
+  private auth: Auth;
 
   constructor(
-    private heroService:HeroService,
+    private authService:AuthService,
     private router:Router
   ) {}
 
   ngOnInit(): void {
-    this.heroService.getHeroes()
-      .then(heroes => this.heroes = heroes.slice(1, 5));
+    this.authService.getAuth()
+      .then(auth => this.auth = auth);
   }
 
-  gotoDetailHero(hero: Hero): void {
-    let link = ['/detail', hero.id];
-    this.router.navigate(link);
+  onLogin(): void {
+    window.location.href = "/auth/twitter";
   }
 }

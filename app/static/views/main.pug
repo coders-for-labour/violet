@@ -1,8 +1,11 @@
 .main-page
-  h1 {{title}}
+  h1 Violet
   small Social tools for activists
 
-  nav
-    a(routerLink="/dashboard") Dashboard
-    a(routerLink="/heroes" routerLinkActive="active") Heroes
+  #logged-out(*ngIf="user")
+    nav
+      a(routerLink="/dashboard") Dashboard
+      a(routerLink="/blocklist") Blocklist
+      a(routerLink="/voted" routerLinkActive="active") Voted
+      a(href="/logout") Logout
   router-outlet

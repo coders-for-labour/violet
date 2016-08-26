@@ -16,8 +16,8 @@ var passport = require('passport');
 var TwitterStrategy = require('passport-twitter');
 
 module.exports.init = app => {
-  app.get('/api/v1/auth', (req, res) => {
-    res.json(req.user ? {username: req.user.username, name: req.user.name, images: req.user.images} : false);
+  app.get('/api/auth', (req, res) => {
+    res.json(req.user ? {username: req.user.username, name: req.user.name, images: req.user.images} : null);
   });
 
   app.get('/logout', function(req, res) {
