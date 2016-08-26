@@ -13,6 +13,7 @@
  *
  */
 
+var Config = require('./config');
 require('sugar');
 
 const logFormat = Date.ISO8601_DATETIME;
@@ -26,7 +27,7 @@ var LogLevel = {
   WARN: 2,
   INFO: 3,
   VERBOSE: 4,
-  DEFAULT: 3
+  DEFAULT: Config.env === 'dev' || Config.env === 'test' ? 3 : 2
 };
 
 module.exports.Constants = {
