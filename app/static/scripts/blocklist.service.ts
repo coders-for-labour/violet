@@ -28,7 +28,7 @@ export class BlocklistService {
   blockAll(): Promise<number> {
     return this.http.get(this.blocklistBlockUrl)
       .toPromise()
-      .then(response => response.json().res as number)
+      .then(response => response.json() as number)
       .catch(this.handleError);
   }
 

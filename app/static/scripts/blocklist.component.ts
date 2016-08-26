@@ -33,7 +33,7 @@ export class BlocklistComponent implements OnInit {
 
   onBlockAll(): void {
     this.blocklistService.blockAll()
-      .then(numBlocked => this.result = `Successfully block ${numBlocked} accounts.`)
+      .then(numBlocked => this.result = `Successfully blocked ${numBlocked} accounts.`)
       .catch(this.handleError);
   }
 
