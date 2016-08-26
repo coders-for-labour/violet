@@ -27,13 +27,13 @@ var LogLevel = {
   WARN: 2,
   INFO: 3,
   VERBOSE: 4,
-  DEFAULT: Config.env === 'dev' || Config.env === 'test' ? 3 : 2
+  DEFAULT: 3
 };
 
 module.exports.Constants = {
   LogLevel: LogLevel
 };
-var _logLevel = LogLevel.INFO;
+var _logLevel = Config.env === 'dev' || Config.env === 'test' ? LogLevel.INFO : LogLevel.WARN;
 
 /**
  *
