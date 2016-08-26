@@ -13,7 +13,7 @@
 var rest = require('restler');
 var fs = require('fs');
 var Logging = require('./logging');
-var StreamBuffers = require('stream-buffers');
+//var StreamBuffers = require('stream-buffers');
 var Canvas = require('canvas');
 var Image = Canvas.Image;
 //
@@ -35,13 +35,16 @@ var _cacheImages = () => {
 };
 
 var _drawImage = (ctx, imgData) => {
-  var image = new Image();
-  image.dataMode = Image.MODE_IMAGE;
-  image.onload = () => {
-    ctx.drawImage(image, 0, 0, 200, 200);
-  };
-
-  image.src = imgData;
+  return new Promise((resolve,reject) {
+    var image = new Image();
+    image.dataMode = Image.MODE_IMAGE;
+    image.onload = () => {
+      ctx.drawImage(image, 0, 0, 200, 200);
+      resolve(true);
+    };
+  
+    image.src = imgData;
+  });
 };
 
 module.exports.init = app => {
@@ -58,17 +61,25 @@ module.exports.init = app => {
         ctx.antialias = 'subpixel';
         ctx.patternQuality = 'best';
 
-        _drawImage(ctx, response.raw);
-        ctx.globalAlpha = 1;
-        _drawImage(ctx, _images[req.params.choice-1]);
+        _drawImage(ctx, response.raw)
+          .then(() => {
+            ctx.globalAlpha = 1;
+          })
+          .then(_drawImage(ctx, _images[req.params.choice - 1]))
+          .then(() => {
+            fs.writeFileSync('/home/chris/tmp/output.png', canvas.toBuffer());
+            var fileRead = fs.createReadStream('/home/chris/tmp/output.png');
+            res.type('png');
+            fileRead.pipe(res);
+          });
 
         // ctx.toBuffer();
         // var buffer = new StreamBuffers.ReadableStreamBuffer();
         // buffer.put(canvas.toBuffer());
-        fs.writeFileSync('/home/chris/tmp/output.png', canvas.toBuffer());
-        var fileRead = fs.createReadStream('/home/chris/tmp/output.png')
-        res.type('png');
-        fileRead.pipe(res);
+        // fs.writeFileSync('/home/chris/tmp/output.png', canvas.toBuffer());
+        // var fileRead = fs.createReadStream('/home/chris/tmp/output.png');
+        // res.type('png');
+        // fileRead.pipe(res);
         // res.sendStatus(200);
       });
   });
