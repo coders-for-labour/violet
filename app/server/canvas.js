@@ -26,19 +26,19 @@ var Image = Canvas.Image;
 
 var _images = [];
 var _cacheImages = () => {
-  _images[0] = fs.readFileSync(`${__dirname}/static/images/twibbon1-small.png`);
-  _images[1] = fs.readFileSync(`${__dirname}/static/images/twibbon2-small.png`);
-  _images[2] = fs.readFileSync(`${__dirname}/static/images/twibbon3-small.png`);
-  _images[3] = fs.readFileSync(`${__dirname}/static/images/twibbon4-small.png`);
-  _images[4] = fs.readFileSync(`${__dirname}/static/images/twibbon5-small.png`);
-  _images[5] = fs.readFileSync(`${__dirname}/static/images/twibbon6-small.png`);
+  _images[0] = fs.readFileSync(`${__dirname}/static/images/twibbon1.png`);
+  _images[1] = fs.readFileSync(`${__dirname}/static/images/twibbon2.png`);
+  _images[2] = fs.readFileSync(`${__dirname}/static/images/twibbon3.png`);
+  _images[3] = fs.readFileSync(`${__dirname}/static/images/twibbon4.png`);
+  _images[4] = fs.readFileSync(`${__dirname}/static/images/twibbon5.png`);
+  _images[5] = fs.readFileSync(`${__dirname}/static/images/twibbon6.png`);
 };
 
 var _drawImage = (ctx, imgData) => {
   var image = new Image();
   image.dataMode = Image.MODE_IMAGE;
   image.onload = () => {
-    ctx.drawImage(image, 0, 0, 73, 73);
+    ctx.drawImage(image, 0, 0, 200, 200);
   };
 
   image.src = imgData;
@@ -47,13 +47,13 @@ var _drawImage = (ctx, imgData) => {
 module.exports.init = app => {
   _cacheImages();
   app.get('/twibbon/:choice([1-6])', (req, res) => {
-    var img = req.user.images.profile.replace('normal', 'bigger');
+    var img = req.user.images.profile.replace('_normal', '');
     Logging.log(img);
     rest.get(img)
       .on('success', (data, response) => {
         fs.writeFileSync('/home/chris/tmp/test.jpg', response.raw);
 
-        var canvas = new Canvas(73, 73);
+        var canvas = new Canvas(200, 200);
         var ctx = canvas.getContext('2d');
         ctx.antialias = 'subpixel';
         ctx.patternQuality = 'best';
