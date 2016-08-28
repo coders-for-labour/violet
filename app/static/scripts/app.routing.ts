@@ -6,7 +6,7 @@ import { TwitterProfileDetailComponent }      from './twitter-profile-detail.com
 
 const appRoutes: Routes = [
   {
-    path: 'blocklist',
+    path: '',
     component: BlocklistComponent
   },
   {

@@ -7,6 +7,7 @@ import { TwitterProfile } from './twitter-profile.component';
 @Injectable()
 export class BlocklistService {
   private blocklistUrl = 'api/blocklist';
+  private blocklistCountUrl = 'api/blocklist/count';
   private blocklistBlockUrl = 'api/blocklistblock';
 
   constructor(private http: Http) {}
@@ -15,6 +16,13 @@ export class BlocklistService {
     return this.http.get(this.blocklistUrl)
       .toPromise()
       .then(response => response.json() as TwitterProfile[])
+      .catch(this.handleError);
+  }
+
+  getBlocklistCount(): Promise<number> {
+    return this.http.get(this.blocklistCountUrl)
+      .toPromise()
+      .then(response => response.json() as number)
       .catch(this.handleError);
   }
 

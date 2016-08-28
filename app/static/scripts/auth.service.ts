@@ -7,14 +7,20 @@ import { Auth } from './auth.component';
 @Injectable()
 export class AuthService {
   private authUrl = 'api/auth';
+  private authResult: Promise<Auth>;
 
   constructor(private http: Http) {}
 
   getAuth(): Promise<Auth> {
-    return this.http.get(this.authUrl)
+    if (this.authResult)
+      return this.authResult;
+
+    this.authResult = this.http.get(this.authUrl)
       .toPromise()
       .then(response => response.json() as Auth)
       .catch(this.handleError);
+
+    return this.authResult;
   }
 
   private handleError(error: any): Promise<any> {

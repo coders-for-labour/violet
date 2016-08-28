@@ -47,8 +47,8 @@ class Config {
       }
       settings.local.environment[variable] = process.env[variable];
     }
-
-    return Object.assign(settings.global, settings.local.environment, settings.local[process.env.SERVER_ID]);
+	
+    return Object.assign(settings.global, settings.local.environment, settings.local[process.env.VIOLET_SERVER_ID]);
   }
 }
 

@@ -147,8 +147,12 @@ gulp.task('resources', function() {
  *
  */
 gulp.task('watch', ['clean'], function() {
-  livereload.listen();
   gulp.start('app-scripts', 'scripts', 'type-scripts', 'views', 'styles', 'resources', 'images', 'bower-files');
+  gulp.start('start-watch');
+});
+
+gulp.task('start-watch', function() {
+  livereload.listen();
 
   // Watch Images
   gulp.watch('app/static/images/**/*.png', ['images-full']);

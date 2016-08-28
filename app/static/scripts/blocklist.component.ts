@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
+import { Auth } from './auth.component';
 import { BlocklistService } from './blocklist.service';
 import { OnInit } from '@angular/core';
 import { TwitterProfile } from './twitter-profile.component'
@@ -11,19 +11,34 @@ import { TwitterProfile } from './twitter-profile.component'
   providers: []
 })
 export class BlocklistComponent implements OnInit {
+  private auth: Auth;
+
   error: any;
   result: string;
   working: boolean;
+  complete: boolean;
+  blocklistCount: number = 0;
   blocklist: TwitterProfile[];
 
   constructor(
     private authService: AuthService,
-    private blocklistService: BlocklistService,
-    private router:Router
+    private blocklistService: BlocklistService
   ) {}
 
   ngOnInit(): void {
-    this.getBlocklist();
+    this.authService.getAuth()
+      .then(auth => {
+        this.auth = auth;
+
+        this.getBlocklistCount();
+
+        if (auth)
+          this.getBlocklist();
+      });
+  }
+
+  onLogin(): void {
+    window.location.href = "/auth/twitter";
   }
 
   getBlocklist(): void {
@@ -31,9 +46,19 @@ export class BlocklistComponent implements OnInit {
       .then(blocklist => this.blocklist = blocklist);
   }
 
+  getBlocklistCount(): void {
+    this.blocklistService.getBlocklistCount()
+      .then(blocklistCount => this.blocklistCount = blocklistCount);
+  }
+
   onBlockAll(): void {
+    this.working = true;
     this.blocklistService.blockAll()
-      .then(numBlocked => this.result = `Successfully blocked ${numBlocked} accounts.`)
+      .then(numBlocked => {
+        this.complete = true;
+        this.working = false;
+        this.result = `Successfully blocked ${numBlocked} accounts.`
+      })
       .catch(this.handleError);
   }
 

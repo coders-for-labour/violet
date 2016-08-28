@@ -27,6 +27,14 @@
         "test": 6012
       }
     },
+	"kriskit": {
+      "callbackDomain": "http://dev.violet.com:6011",
+      "listenPort": {
+        "dev": 6011,
+        "prod": 6010,
+        "test": 6012
+      }
+	},
     "yubaba": {
       "callbackDomain": "http://violet.codersforcorbyn.com",
       "listenPort": {

@@ -139,6 +139,10 @@ var _getBlocklist = (req, res) => {
   res.json(req.app.blockList);
 };
 
+var _getBlocklistCount = (req, res) => {
+  res.json(req.app.blockListCount);
+}
+
 /**
  * @param {object} app - Express app object
  * @private
@@ -186,6 +190,7 @@ var _loadBlocklist = app => {
         Logging.log(data[0], Logging.Constants.LogLevel.INFO);
         Logging.log(`Blocklist Length: ${data.length}`, Logging.Constants.LogLevel.INFO);
         app.blockList = list;
+        app.blockListCount = data.length;
       });
     });
 };
@@ -197,4 +202,5 @@ module.exports.init = app => {
   app.get('/api/twitter/statuses', _getStatuses);
   app.get('/api/blocklistblock', _blockAccounts);
   app.get('/api/blocklist', _getBlocklist);
+  app.get('/api/blocklist/count', _getBlocklistCount);
 };

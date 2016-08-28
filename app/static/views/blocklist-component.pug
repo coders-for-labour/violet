@@ -1,10 +1,34 @@
 .blocklist-component
-  .error(*ngIf="error") {{error}}
-  .info(*ngIf="result") {{result}}
-  button.btn.btn-default(type="button", [disabled]="working", (click)="onBlockAll()") Block All
-  #blocklist
-    .blocklist
-      li( *ngFor="let profile of blocklist")
-        img(src="{{profile.images.profile}}")
-        a(routerLink="/detail/{{profile.id}}") @{{profile.username}}
-  button.btn.btn-default(type="button", [disabled]="working", (click)="onBlockAll()") Block All
+  header
+    .container
+      .logo
+      h1 Fake Blocker
+      p A tool for blocking fake
+        br 
+        | and abusive Twitter accounts
+
+  section.count Currently blocking {{blocklistCount}} Twitter accounts
+  .container
+
+    .error(*ngIf="error") {{error}}
+    .info(*ngIf="result") {{result}}
+
+    .logged-out(*ngIf="!auth")
+      .intro Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed quam quis arcu aliquet gravida sit amet at turpis. Nullam sodales id quam vitae dictum. Suspendisse et egestas nisi. Nullam id arcu eget orci viverra luctus nec id nibh. Quisque sed consectetur nisi, ut varius erat. Aenean lacinia dui tellus, vitae scelerisque odio sollicitudin sed. Aenean vitae hendrerit diam. Get blocking!
+      a.login-btn(href="#",(click)="onLogin()")
+        i.fa.fa-twitter
+        br
+        | Login with Twitter
+
+    div(*ngIf="auth")
+      h3 Welcome {{auth.name}} 
+        a(href="/logout") Logout
+      div.list-wrapper
+        ul.blocklist
+          li( *ngFor="let profile of blocklist")
+            .profile
+              .image([style.background-image]="'url(' + profile.images.profile.replace('_normal', '') + ')'")
+              .name @{{profile.username}}
+      a.block-btn(*ngIf="!working && !complete", (click)="onBlockAll()") Block
+  footer
+    h4 Made by Volunteers 
