@@ -13,7 +13,7 @@
 var rest = require('restler');
 var fs = require('fs');
 var Logging = require('./logging');
-//var StreamBuffers = require('stream-buffers');
+// var StreamBuffers = require('stream-buffers');
 var Canvas = require('canvas');
 var Image = Canvas.Image;
 //
@@ -35,14 +35,13 @@ var _cacheImages = () => {
 };
 
 var _drawImage = (ctx, imgData) => {
-  return new Promise((resolve,reject) => {
+  return new Promise((resolve, reject) => {
     var image = new Image();
     image.dataMode = Image.MODE_IMAGE;
     image.onload = () => {
       ctx.drawImage(image, 0, 0, 200, 200);
       resolve(true);
     };
-  
     image.src = imgData;
   });
 };

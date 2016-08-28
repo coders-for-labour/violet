@@ -1,40 +1,82 @@
 @darkRed: #a70000;
 
 .blocklist-component {
-  margin-bottom: 140px;
+  margin-bottom: 90px;
+
+  @media only screen and (min-width : 768px) {
+    margin-bottom: 140px;
+  }
 
   > header {
     background-color: @darkRed;
     color: #fff;
     text-align: center;
-    padding-top: 40px;
-    padding-bottom: 40px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 
     .logo {
       background-image: url(../images/logo.png);
-      height: 180px;
+      height: 120px;
       background-repeat: no-repeat;
       background-position: top center;
       background-size: contain;
     }
 
     h1 {
-      font-size: 50px;
+      font-size: 40px;
     }
 
     p {
-      font-size: 22px;
+      font-size: 18px;
+    }
+
+    .logout-btn {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-color: #fff;
+      color: @darkRed;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 10px;
+      border-radius: 0 0 0 5px;
+      text-transform: uppercase;
+      border-left: 1px solid @darkRed;
+      border-bottom: 1px solid @darkRed;
+    }
+
+    @media only screen and (min-width : 768px) {
+      padding-top: 40px;
+      padding-bottom: 40px;
+
+      .logo {
+        background-image: url(../images/logo.png);
+        height: 180px;
+      }
+
+      h1 {
+        font-size: 50px;
+      }
+
+      p {
+        font-size: 22px;
+      }
     }
   }
 
   section.count {
     color: @darkRed;
-    font-size: 22px;
+    font-size: 18px;
     text-align: center;
     padding-top: 10px;
     padding-bottom: 10px;
     border-bottom: 2px solid @darkRed;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+
+    @media only screen and (min-width : 768px) {
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
   }
 
   .logged-out {
@@ -78,16 +120,41 @@
     background-color: @darkRed;
     color: #fff;
     font-weight: bold;
-    font-size: 50px;
-    padding: 20px 60px;
+    font-size: 40px;
+    padding: 10px 40px;
     border-radius: 10px 10px 0 0;
     text-transform: uppercase;
     text-decoration: none;
+    
+    @media only screen and (min-width : 768px) {
+      font-size: 50px;
+      padding: 20px 60px;
+      border-radius: 10px 10px 0 0;
+    }
   }
 
   .list-wrapper {
     text-align: center;
   }
+
+  .block-intro {
+    text-align: center;
+
+    h3 {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+
+    p {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .alert {
+      font-size: 18px;
+      font-weight: bold;
+    }
+  } 
 
   .blocklist {
     display: inline-block;
@@ -97,7 +164,7 @@
 
     li {
       display: inline-block;
-      width: 165px;
+      width: 120px;
       padding-left: 10px;
       padding-right: 10px;
       margin-bottom: 10px;
@@ -120,12 +187,22 @@
         .name {
           padding-top: 4px;
           padding-bottom: 4px;
-          font-size: 12px;
+          font-size: 10px;
           color: #fff;
           font-weight: bold;
           text-align: center;
           background-color: darken(#ccc, 30);
           margin: 0 -10px -10px -10px;
+        }
+      }
+
+      @media only screen and (min-width : 768px) {
+        width: 165px;
+
+        .profile {
+          .name {
+              font-size: 12px;
+          }
         }
       }
     }
@@ -138,8 +215,10 @@
     right: 0;
     bottom: 0;
     color: #333;
+    padding: 10px;
 
     h4 {
+      padding-top: 4px;
       float: right;
       margin-right: 20px;
       visibility: hidden;
@@ -147,6 +226,13 @@
       @media only screen and (min-width : 768px) {
         visibility: visible;
       }
+    }
+
+    .c4c-logo {
+      display: block;
+      width: 39px;
+      height: 46px;
+      background-image: url(../images/c4c-logo.png);
     }
   }
 } 

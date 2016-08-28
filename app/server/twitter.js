@@ -141,7 +141,7 @@ var _getBlocklist = (req, res) => {
 
 var _getBlocklistCount = (req, res) => {
   res.json(req.app.blockListCount);
-}
+};
 
 /**
  * @param {object} app - Express app object
