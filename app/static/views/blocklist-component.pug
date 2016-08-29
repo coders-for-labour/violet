@@ -13,7 +13,15 @@
   section.count Currently blocking {{blocklistCount}} Twitter accounts
   .container
     .logged-out(*ngIf="!auth")
-      .intro Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed quam quis arcu aliquet gravida sit amet at turpis. Nullam sodales id quam vitae dictum. Suspendisse et egestas nisi. Nullam id arcu eget orci viverra luctus nec id nibh. Quisque sed consectetur nisi, ut varius erat. Aenean lacinia dui tellus, vitae scelerisque odio sollicitudin sed. Aenean vitae hendrerit diam. Get blocking!
+      .intro Block all fake Momentum accounts with the button below.
+        br
+        | New accounts will be added as they emerge so please check back to update your block list.
+        br
+        | This blocker is part of Violet, an open-source suite of social media tools for Labour activists. Please check back as we release new features and 
+        a(href="mailto:info@codersforcorbyn.com") contact us 
+        | if you are interested in contributing to this project.
+        br
+        | Get blocking!
       a.login-btn(href="#",(click)="onLogin()")
         i.fa.fa-twitter
         br
