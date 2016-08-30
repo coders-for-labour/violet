@@ -59,11 +59,13 @@ var configureApp = env => {
   app.use(bodyParser.urlencoded({extended: true}));
   app.use(methodOverride());
 
+  Logging.log(Config, Logging.Constants.LogLevel.VERBOSE);
+
   app.use(session({
     saveUninitialized: false,
     resave: false,
     secret: 'BhMG3w4ECrD3lbXkRU6D8wxC0PTy2D7HCG1sDpVpBaXDFvxUVIx1sHL3ifqCYb6',
-    store: new LevelStore()
+    store: new LevelStore(Config.sessionStorePath)
   }));
 
   app.use(passport.initialize());
