@@ -61,7 +61,7 @@ class TwitterQueueManager {
 
   flushQueue() {
     Promise.all(this._queue.map(qi => _blockTask(qi)))
-      .then(Logging.Promise.logArray('Twitter Results: ', Logging.Constants.LogLevel.INFO))
+      .then(Logging.Promise.logArray('Twitter Results: ', Logging.Constants.LogLevel.VERBOSE))
       // .then(queue => {
       //   this._queue = queue.filter(qi => qi.repeating);
       // })
@@ -187,7 +187,7 @@ var _loadBlocklist = app => {
           };
         });
         // Logging.log(list);
-        Logging.log(data[0], Logging.Constants.LogLevel.INFO);
+        Logging.log(data[0], Logging.Constants.LogLevel.VERBOSE);
         Logging.log(`Blocklist Length: ${data.length}`, Logging.Constants.LogLevel.INFO);
         app.blockList = list;
         app.blockListCount = data.length;
