@@ -20,6 +20,8 @@
       "VIOLET_BLOCKLIST_URL": ""
     },
     "workstation1": {
+      "sessionStorePath": "/home/chris/tmp/sessionDb",
+      "imageCachePath": "/home/chris/tmp/imageCache",
       "callbackDomain": "http://dev.violet.com",
       "listenPort": {
         "dev": 6011,
@@ -28,6 +30,7 @@
       }
     },
 	"kriskit": {
+      "sessionStorePath": "/home/kris/",
       "callbackDomain": "http://dev.violet.com:6011",
       "listenPort": {
         "dev": 6011,
@@ -36,6 +39,8 @@
       }
 	},
     "yubaba": {
+      "imageCachePath": "/home/chris/tmp/imageCache",
+      "sessionStorePath": "/home/chris/tmp/sessionDb",
       "callbackDomain": "http://violet.codersforcorbyn.com",
       "listenPort": {
         "dev": 6011,
