@@ -27,8 +27,13 @@ gulp.task('images-full', function() {
     .pipe(gulp.dest('deploy/static/images'))
     .pipe(livereload({auto: false}));
 });
+gulp.task('server-images', function() {
+  return gulp.src('app/server/images/**/*.*')
+    .pipe(gulp.dest('deploy/images'))
+    .pipe(livereload({auto: false}));
+});
 gulp.task('images', function() {
-  return gulp.start(['images-full', 'images-lite']);
+  return gulp.start(['images-full', 'images-lite', 'server-images']);
 });
 
 /**
@@ -167,7 +172,7 @@ gulp.task('start-watch', function() {
   gulp.watch('app/static/**/*.pug', ['views-pug']);
   gulp.watch('app/static/**/*.html', ['views-html']);
   // Watch Resources
-  gulp.watch('app/server/nodemon.json', ['nodemon']);
+  gulp.watch('app/server/**/*.json', ['json']);
 });
 
 /**
