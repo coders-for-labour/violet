@@ -27,8 +27,13 @@ gulp.task('images-full', function() {
     .pipe(gulp.dest('deploy/static/images'))
     .pipe(livereload({auto: false}));
 });
+gulp.task('server-images', function() {
+  return gulp.src('app/server/images/**/*.*')
+    .pipe(gulp.dest('deploy/images'))
+    .pipe(livereload({auto: false}));
+});
 gulp.task('images', function() {
-  return gulp.start(['images-full', 'images-lite']);
+  return gulp.start(['images-full', 'images-lite', 'server-images']);
 });
 
 /**

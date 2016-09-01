@@ -31,7 +31,7 @@ var _blockTask = queueItem => {
 
   return new Promise((resolve, reject) => {
     twitter.post(queueItem.api, queueItem.params, function(error, data, response) {
-      Logging.log(`Twitter: ${queueItem.api}`, Logging.Constants.LogLevel.VERBOSE);
+      Logging.log(`Twitter: ${queueItem.api}`, Logging.Constants.LogLevel.INFO);
       Logging.log(data, Logging.Constants.LogLevel.VERBOSE);
       if (error) {
         resolve(false);
@@ -46,7 +46,7 @@ var _blockTask = queueItem => {
 class TwitterQueueManager {
   constructor() {
     this._queue = [];
-    setInterval(_.bind(this.flushQueue, this), this.Constants.INTERVAL);
+    setTimeout(_.bind(this.flushQueue, this), this.Constants.INTERVAL);
   }
 
   get Constants() {
@@ -60,9 +60,11 @@ class TwitterQueueManager {
   }
 
   flushQueue() {
-    Logging.log(`QueueManager: Flushing ${this._queue.length} Calls`);
     Promise.all(this._queue.map(qi => _blockTask(qi)))
-      .then(Logging.Promise.logArray('Twitter Executed: ', Logging.Constants.LogLevel.INFO))
+      .then(Logging.Promise.logArray('Twitter Results: ', Logging.Constants.LogLevel.VERBOSE))
+      // .then(queue => {
+      //   this._queue = queue.filter(qi => qi.repeating);
+      // })
       .catch(err => Logging.log(err));
     this._queue = [];
   }
@@ -148,7 +150,7 @@ var _getBlocklistCount = (req, res) => {
 var _loadBlocklist = app => {
   rest.get(Config.VIOLET_BLOCKLIST_URL, {timeout: 5000})
     .on('success', data => {
-      Logging.log(data, Logging.Constants.LogLevel.DEBUG);
+      Logging.log(data, Logging.Constants.LogLevel.VERBOSE);
 
       var twitter = new Twitter({
         consumer_key: Config.VIOLET_TW_CONSUMER_KEY,
@@ -185,7 +187,7 @@ var _loadBlocklist = app => {
           };
         });
         // Logging.log(list);
-        Logging.log(data[0], Logging.Constants.LogLevel.DEBUG);
+        Logging.log(data[0], Logging.Constants.LogLevel.VERBOSE);
         Logging.log(`Blocklist Length: ${data.length}`, Logging.Constants.LogLevel.INFO);
         app.blockList = list;
         app.blockListCount = data.length;

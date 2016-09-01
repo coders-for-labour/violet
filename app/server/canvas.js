@@ -10,76 +10,64 @@
  *
  */
 
-var rest = require('restler');
-var fs = require('fs');
-var Logging = require('./logging');
-// var StreamBuffers = require('stream-buffers');
-var Canvas = require('canvas');
-var Image = Canvas.Image;
-//
-// var _test = () => {
-//   var canvas = new Canvas(73, 73);
-//   var ctx = canvas.getContext('2d');
-//
-//
-// }
+// var Logging = require('./logging');
+var Composer = require('./composer');
 
-var _images = [];
-var _cacheImages = () => {
-  _images[0] = fs.readFileSync(`${__dirname}/static/images/twibbon1.png`);
-  _images[1] = fs.readFileSync(`${__dirname}/static/images/twibbon2.png`);
-  _images[2] = fs.readFileSync(`${__dirname}/static/images/twibbon3.png`);
-  _images[3] = fs.readFileSync(`${__dirname}/static/images/twibbon4.png`);
-  _images[4] = fs.readFileSync(`${__dirname}/static/images/twibbon5.png`);
-  _images[5] = fs.readFileSync(`${__dirname}/static/images/twibbon6.png`);
-};
+var _twibbons = [
+  `${__dirname}/images/twibbon/twibbon1.png`,
+  `${__dirname}/images/twibbon/twibbon2.png`,
+  `${__dirname}/images/twibbon/twibbon3.png`,
+  `${__dirname}/images/twibbon/twibbon4.png`,
+  `${__dirname}/images/twibbon/twibbon5.png`,
+  `${__dirname}/images/twibbon/twibbon6.png`
+];
 
-var _drawImage = (ctx, imgData) => {
-  return new Promise((resolve, reject) => {
-    var image = new Image();
-    image.dataMode = Image.MODE_IMAGE;
-    image.onload = () => {
-      ctx.drawImage(image, 0, 0, 200, 200);
-      resolve(true);
-    };
-    image.src = imgData;
-  });
-};
+var _banners = [
+  {file: `${__dirname}/images/banners/banner1.png`, aspect: 0.555}
+];
 
 module.exports.init = app => {
-  _cacheImages();
   app.get('/twibbon/:choice([1-6])', (req, res) => {
-    var img = req.user.images.profile.replace('_normal', '');
-    Logging.log(img);
-    rest.get(img)
-      .on('success', (data, response) => {
-        fs.writeFileSync('/home/chris/tmp/test.jpg', response.raw);
+    var imgUrl = req.user.images.profile.replace('_normal', '');
+    var composer = new Composer(500, 500);
+    composer.disableCache();
+    composer.params('antialias', 'subpixel');
+    composer.params('patternQuality', 'best');
+    composer.imageFromUrl(imgUrl, {gravity: 'mid'});
+    composer.params('globalAlpha', 1);
+    composer.imageFromFile(_twibbons[req.params.choice - 1], {
+      width: 1.0, height: 1.0, gravity: 'bottom', cacheFile: true});
+    composer.text('Vote Corbyn: For hope, not fear', {
+      gravity: 'top', top: 20, width: 0.35, height: 20, fontSize: 20});
+    composer.render().then(readStream => {
+      res.type('png');
+      readStream.pipe(res);
+    });
+  });
 
-        var canvas = new Canvas(200, 200);
-        var ctx = canvas.getContext('2d');
-        ctx.antialias = 'subpixel';
-        ctx.patternQuality = 'best';
+  app.get('/banner/:choice([1-6])', (req, res) => {
+    var banner = _banners[req.params.choice - 1];
+    var imgUrl = req.user.images.profile.replace('_normal', '');
 
-        _drawImage(ctx, response.raw)
-          .then(() => {
-            ctx.globalAlpha = 1;
-          })
-          .then(_drawImage(ctx, _images[req.params.choice - 1]))
-          .then(() => {
-            fs.writeFileSync('/home/chris/tmp/output.png', canvas.toBuffer());
-            var fileRead = fs.createReadStream('/home/chris/tmp/output.png');
-            res.type('png');
-            fileRead.pipe(res);
-          });
+    var text = req.query.t;
 
-        // ctx.toBuffer();
-        // var buffer = new StreamBuffers.ReadableStreamBuffer();
-        // buffer.put(canvas.toBuffer());
-        // fs.writeFileSync('/home/chris/tmp/output.png', canvas.toBuffer());
-        // var fileRead = fs.createReadStream('/home/chris/tmp/output.png');
-        // res.type('png');
-        // fileRead.pipe(res);
-        // res.sendStatus(200);
-      });
+    var composer = new Composer(600, 600 * banner.aspect);
+    composer.disableCache();
+    composer.params('antialias', 'subpixel');
+    composer.params('patternQuality', 'best');
+    composer.imageFromFile(banner.file, {
+      width: 1.0, height: 1.0, gravity: 'bottom', cacheFile: true});
+    composer.params('globalAlpha', 1);
+    // composer.imageFromUrl(imgUrl, {width: 0.1, height: 0.1, gravity: 'bottom left'});
+    composer.text('I voted for Jeremy because:', {
+      gravity: 'top left', top: 20, left: 30, width: 0.6, height: 400, fontSize: 20, color: '#fff'});
+    composer.text(text, {
+      gravity: 'top left', top: 100, left: 30, width: 0.5, height: 400, fontSize: 30, color: '#fff'});
+    composer.text(`@${req.user.username}`, {
+      gravity: 'top left', top: 310, left: 30, width: 0.5, height: 400, fontSize: 12, color: '#fff'});
+    composer.render().then(readStream => {
+      res.type('png');
+      readStream.pipe(res);
+    });
   });
 };
