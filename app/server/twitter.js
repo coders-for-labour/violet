@@ -46,7 +46,7 @@ var _blockTask = queueItem => {
 class TwitterQueueManager {
   constructor() {
     this._queue = [];
-    setTimeout(_.bind(this.flushQueue, this), this.Constants.INTERVAL);
+    setInterval(_.bind(this.flushQueue, this), this.Constants.INTERVAL);
   }
 
   get Constants() {
