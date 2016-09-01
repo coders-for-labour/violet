@@ -167,7 +167,7 @@ gulp.task('start-watch', function() {
   gulp.watch('app/static/**/*.pug', ['views-pug']);
   gulp.watch('app/static/**/*.html', ['views-html']);
   // Watch Resources
-  gulp.watch('app/server/nodemon.json', ['nodemon']);
+  gulp.watch('app/server/**/*.json', ['json']);
 });
 
 /**
