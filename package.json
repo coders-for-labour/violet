@@ -45,7 +45,8 @@
     "zone.js": "0.6.12",
     "angular2-in-memory-web-api": "0.0.15",
     "bootstrap": "^3.3.6",
-    "canvas": "^1.4.0"
+    "canvas": "^1.4.0",
+    "winston": "^2.2.0"
   },
   "devDependencies": {
     "concurrently": "^2.0.0",

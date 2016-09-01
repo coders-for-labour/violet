@@ -13,28 +13,39 @@
  *
  */
 
+var winston = require('winston');
 var Config = require('./config');
 require('sugar');
 
 const logFormat = Date.ISO8601_DATETIME;
-var logPrefix = module.exports.logPrefix = () => {
-  return Date.create().format(logFormat);
-};
-var _stream = process.stdout;
+winston.remove(winston.transports.Console);
+winston.add(winston.transports.Console, {
+  colorize: 'all',
+  timestamp: () => Date.create().format(logFormat)
+});
+winston.addColors({
+  info: 'white',
+  error: 'red',
+  warn: 'yellow',
+  verbose: 'white',
+  debug: 'white'
+});
 
 var LogLevel = {
-  NONE: 0,
-  ERR: 1,
-  WARN: 2,
-  INFO: 3,
-  VERBOSE: 4,
-  DEFAULT: 3
+  ERR: 'error',
+  WARN: 'warn',
+  INFO: 'info',
+  VERBOSE: 'verbose',
+  DEBUG: 'debug',
+  SILLY: 'silly',
+  DEFAULT: 'info'
 };
 
 module.exports.Constants = {
   LogLevel: LogLevel
 };
-var _logLevel = Config.env === 'dev' || Config.env === 'test' ? LogLevel.INFO : LogLevel.WARN;
+// var _logLevel = Config.env === 'dev' || Config.env === 'test' ? LogLevel.INFO : LogLevel.WARN;
+winston.level = Config.env === 'dev' || Config.env === 'test' ? LogLevel.DEBUG : LogLevel.INFO;
 
 /**
  *
@@ -43,17 +54,23 @@ var _logLevel = Config.env === 'dev' || Config.env === 'test' ? LogLevel.INFO : 
  * @private
  */
 function _log(log, level) {
-  if (_logLevel >= level) {
-    if (typeof log === 'string') {
-      // console.log(`${logPrefix()} - ${log}`);
-      _stream.write(`${logPrefix()} - ${log}\n`);
-    } else {
-      _stream.write(`${logPrefix()}\n`);
-      _stream.write(JSON.stringify(log) + '\n');
-      // console.log(`${logPrefix()}`);
-      // console.log(log);
-    }
+  if (typeof log === 'string') {
+    winston.log(level, log);
+  } else {
+    winston.log(level, '', log);
   }
+  // if (_logLevel >= level) {
+  //   if (typeof log === 'string') {
+  //     winston.log()
+  //     // console.log(`${logPrefix()} - ${log}`);
+  //     // _stream.write(`${logPrefix()} - ${log}\n`);
+  //   } else {
+  //     // _stream.write(`${logPrefix()}\n`);
+  //     // _stream.write(JSON.stringify(log) + '\n');
+  //     // console.log(`${logPrefix()}`);
+  //     // console.log(log);
+  //   }
+  // }
 }
 
 /**
@@ -61,7 +78,8 @@ function _log(log, level) {
  */
 
 module.exports.setLogLevel = level => {
-  _logLevel = level;
+  winston.level = level;
+  // _logLevel = level;
 };
 
 /**

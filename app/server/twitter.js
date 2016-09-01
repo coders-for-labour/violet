@@ -148,7 +148,7 @@ var _getBlocklistCount = (req, res) => {
 var _loadBlocklist = app => {
   rest.get(Config.VIOLET_BLOCKLIST_URL, {timeout: 5000})
     .on('success', data => {
-      Logging.log(data, Logging.Constants.LogLevel.VERBOSE);
+      Logging.log(data, Logging.Constants.LogLevel.DEBUG);
 
       var twitter = new Twitter({
         consumer_key: Config.VIOLET_TW_CONSUMER_KEY,
@@ -185,7 +185,7 @@ var _loadBlocklist = app => {
           };
         });
         // Logging.log(list);
-        Logging.log(data[0], Logging.Constants.LogLevel.VERBOSE);
+        Logging.log(data[0], Logging.Constants.LogLevel.DEBUG);
         Logging.log(`Blocklist Length: ${data.length}`, Logging.Constants.LogLevel.INFO);
         app.blockList = list;
         app.blockListCount = data.length;
