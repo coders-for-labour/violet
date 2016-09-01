@@ -20,6 +20,7 @@ const logFormat = Date.ISO8601_DATETIME;
 var logPrefix = module.exports.logPrefix = () => {
   return Date.create().format(logFormat);
 };
+var _stream = process.stdout;
 
 var LogLevel = {
   NONE: 0,
@@ -44,10 +45,13 @@ var _logLevel = Config.env === 'dev' || Config.env === 'test' ? LogLevel.INFO : 
 function _log(log, level) {
   if (_logLevel >= level) {
     if (typeof log === 'string') {
-      console.log(`${logPrefix()} - ${log}`);
+      // console.log(`${logPrefix()} - ${log}`);
+      _stream.write(`${logPrefix()} - ${log}\n`);
     } else {
-      console.log(`${logPrefix()}`);
-      console.log(log);
+      _stream.write(`${logPrefix()}\n`);
+      _stream.write(JSON.stringify(log) + '\n');
+      // console.log(`${logPrefix()}`);
+      // console.log(log);
     }
   }
 }
