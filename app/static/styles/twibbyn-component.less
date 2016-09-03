@@ -1,0 +1,101 @@
+@import "variables.less";
+
+.twibbyn-component {
+    #header {
+        margin-bottom: 20px;
+    }
+
+    .preview {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 600px;
+        margin-bottom: 40px;
+
+        .row > div {
+            position: relative;
+            text-align: center;
+            font-size: 50px;
+            font-weight: bold;
+            padding-left: 0;
+            padding-right: 0;
+            padding-top: 25%;
+
+            .operator {
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            .image {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-size: 100% auto;
+                background-position: center center;
+                background-repeat: no-repeat;
+                border: 1px solid #ccc;
+
+                .overlay {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background-size: 100% auto;
+                    background-position: center center;
+                    background-repeat: no-repeat;
+                }
+
+                .prev,
+                .next {
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    font-size: 25px;
+                    color: #666;
+                    cursor: pointer;
+
+                    i {
+                        position: absolute;
+                        left: 0;
+                        right: 0;
+                        top: 50%;
+                        transform: translateY(-50%);
+                    }
+
+                    &:hover {
+                        color: @darkRed;
+                    }
+                }
+
+                .prev {
+                    left: 0;
+                    right: 50%;
+                    text-align: left;
+
+                    i {
+                        left: 10px;
+                    }
+                }
+
+                .next {
+                    left: 50%;
+                    right: 0;
+                    text-align: right;
+
+                    i {
+                        right: 10px;
+                    }
+                }
+            }
+
+            &:first-child {
+                margin-left: 15px;
+            }
+        }
+    }
+}

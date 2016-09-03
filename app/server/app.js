@@ -100,6 +100,6 @@ Logging.log(`${Config.app.title} listening on port ${app.get('port')} in ${app.s
             Logging.Constants.LogLevel.INFO);
 app.server = app.listen(app.set('port'));
 
-app.get('/:mode(dashboard|detail|blocklist|voted)/:id?', (req, res, next) => {
+app.get('/:mode(dashboard|blocker|twibbyn|voted)/:id?', (req, res, next) => {
   res.sendFile(`${__dirname}/static/index.html`);
 });

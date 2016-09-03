@@ -1,26 +1,27 @@
 import { Routes, RouterModule } from '@angular/router';
 
-import { DashboardComponent }      from './dashboard.component';
-import { BlocklistComponent }      from './blocklist.component';
-import { TwitterProfileDetailComponent }      from './twitter-profile-detail.component';
+import { DashboardComponent } from './dashboard.component';
+import { BlocklistComponent } from './blocklist.component';
+import { TwitterProfileDetailComponent }  from './twitter-profile-detail.component';
+import { TwibbynComponent } from "./twibbyn.component";
 
 const appRoutes: Routes = [
   {
     path: '',
-    component: BlocklistComponent
+    redirectTo: 'blocker',
+    pathMatch: 'full'
   },
   {
     path: 'dashboard',
     component: DashboardComponent
   },
   {
-    path: 'detail/:id',
-    component: TwitterProfileDetailComponent
+    path: 'blocker',
+    component: BlocklistComponent
   },
   {
-    path: '',
-    redirectTo: '/dashboard',
-    pathMatch: 'full'
+    path: 'twibbyn',
+    component: TwibbynComponent
   }
 ];
 

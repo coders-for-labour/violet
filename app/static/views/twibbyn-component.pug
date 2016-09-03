@@ -1,0 +1,33 @@
+.twibbyn-component
+    header#header
+        .container
+        h1 Twibbyns
+        p Corbynate your Twitter avatar!
+    .container
+        .preview
+            .row.no-margin
+                .col-xs-3
+                    .image([style.backgroundImage]="'url(' + previewImageUrl + ')'")
+                .col-xs-1 
+                    span.operator +
+                .col-xs-3 
+                    .image
+                        .overlay([style.backgroundImage]="'url(' + getOverlayImageUrl() + ')'")
+                        span.prev((click)="previousChoice()")
+                            i.fa.fa-arrow-left
+                        span.next((click)="nextChoice()")
+                            i.fa.fa-arrow-right
+                .col-xs-1 
+                    span.operator =
+                .col-xs-3
+                    .image([style.backgroundImage]="'url(' + previewImageUrl + ')'")
+                        .overlay([style.backgroundImage]="'url(' + getOverlayImageUrl() + ')'")
+
+        .logged-out(*ngIf="!auth")
+            .intro Something
+                br
+                | Something else
+            a.login-btn(href="javascript:void(0)",(click)="onLogin()")
+                i.fa.fa-twitter
+                br
+                | Login with Twitter

@@ -24,14 +24,20 @@ var Image = Canvas.Image;
 //
 // }
 
+var _imageNames = [
+  "twibbon1.png",
+  "twibbon2.png",
+  "twibbon3.png",
+  "twibbon4.png",
+  "twibbon5.png",
+  "twibbon6.png"
+];
+
 var _images = [];
 var _cacheImages = () => {
-  _images[0] = fs.readFileSync(`${__dirname}/static/images/twibbon1.png`);
-  _images[1] = fs.readFileSync(`${__dirname}/static/images/twibbon2.png`);
-  _images[2] = fs.readFileSync(`${__dirname}/static/images/twibbon3.png`);
-  _images[3] = fs.readFileSync(`${__dirname}/static/images/twibbon4.png`);
-  _images[4] = fs.readFileSync(`${__dirname}/static/images/twibbon5.png`);
-  _images[5] = fs.readFileSync(`${__dirname}/static/images/twibbon6.png`);
+  _images = _imageNames.map((name) => {
+    return fs.readFileSync(`${__dirname}/static/images/${name}`);
+  });
 };
 
 var _drawImage = (ctx, imgData) => {
@@ -44,6 +50,10 @@ var _drawImage = (ctx, imgData) => {
     };
     image.src = imgData;
   });
+};
+
+var _getOverlays = (req, res) => {
+  return res.json(_imageNames);
 };
 
 module.exports.init = app => {
@@ -82,4 +92,6 @@ module.exports.init = app => {
         // res.sendStatus(200);
       });
   });
+
+  app.get('/twibbon/overlay', _getOverlays);
 };

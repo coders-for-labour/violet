@@ -13,26 +13,30 @@ import { routing }        from './app.routing';
 import { DashboardComponent }  from './dashboard.component';
 import { BlocklistComponent }  from './blocklist.component';
 import { TwitterProfileDetailComponent }  from './twitter-profile-detail.component';
+import { TwibbynComponent } from "./twibbyn.component";
 
 import { AuthService }  from './auth.service';
 import { BlocklistService }  from './blocklist.service';
+import { TwibbynService } from "./twibbyn.service";
 
 @NgModule({
   imports: [
     BrowserModule,
     FormsModule,
     routing,
-   HttpModule
+    HttpModule
   ],
   declarations: [
     AppComponent,
     DashboardComponent,
     BlocklistComponent,
-    TwitterProfileDetailComponent
+    TwitterProfileDetailComponent,
+    TwibbynComponent
   ],
   providers: [
     AuthService,
     BlocklistService,
+    TwibbynService
    // { provide: XHRBackend, useClass: InMemoryBackendService }, // in-mem server
    // { provide: SEED_DATA,  useClass: InMemoryDataService }     // in-mem server data
   ],

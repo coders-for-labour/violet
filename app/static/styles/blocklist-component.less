@@ -1,67 +1,10 @@
-@darkRed: #a70000;
+@import "variables.less";
 
 .blocklist-component {
   margin-bottom: 90px;
 
   @media only screen and (min-width : 768px) {
     margin-bottom: 140px;
-  }
-
-  > header {
-    background-color: @darkRed;
-    color: #fff;
-    text-align: center;
-    padding-top: 20px;
-    padding-bottom: 20px;
-
-    .logo {
-      background-image: url(../images/logo.png);
-      height: 120px;
-      background-repeat: no-repeat;
-      background-position: top center;
-      background-size: contain;
-    }
-
-    h1 {
-      font-size: 40px;
-    }
-
-    p {
-      font-size: 18px;
-    }
-
-    .logout-btn {
-      position: absolute;
-      top: 0;
-      right: 0;
-      background-color: #fff;
-      color: @darkRed;
-      font-size: 16px;
-      font-weight: bold;
-      padding: 10px;
-      border-radius: 0 0 0 5px;
-      text-transform: uppercase;
-      border-left: 1px solid @darkRed;
-      border-bottom: 1px solid @darkRed;
-    }
-
-    @media only screen and (min-width : 768px) {
-      padding-top: 40px;
-      padding-bottom: 40px;
-
-      .logo {
-        background-image: url(../images/logo.png);
-        height: 180px;
-      }
-
-      h1 {
-        font-size: 50px;
-      }
-
-      p {
-        font-size: 22px;
-      }
-    }
   }
 
   section.count {
@@ -77,38 +20,6 @@
       font-size: 22px;
       margin-bottom: 20px;
     }
-  }
-
-  .logged-out {
-    .intro {
-      color: #333;
-      font-size: 18px;
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    .login-btn {
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      width: 300px;
-      text-align: center;
-      background-color: @darkRed;
-      color: #fff;
-      font-size: 26px;
-      padding: 15px;
-      border-radius: 10px;
-
-      &:active,
-      &:focus,
-      &:hover {
-        text-decoration: none;
-      }
-
-      i {
-        font-size: 60px;
-      }
-    } 
   }
 
   .block-btn {

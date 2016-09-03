@@ -155,8 +155,8 @@ gulp.task('start-watch', function() {
   livereload.listen();
 
   // Watch Images
-  gulp.watch('app/static/images/**/*.png', ['images-full']);
-  gulp.watch('app/lite/static/images/**/*.png', ['images-lite']);
+  gulp.watch('app/static/images/**/*', ['images-full']);
+  gulp.watch('app/lite/static/images/**/*', ['images-lite']);
   // Watch Styles
   gulp.watch('app/static/styles/**/*.less', ['styles-app']);
   // Watch Scripts
