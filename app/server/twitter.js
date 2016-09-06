@@ -60,7 +60,7 @@ class TwitterQueueManager {
   }
 
   flushQueue() {
-    Logging.log(`QueueManager: Executing ${this._queue.length} Commands`, Logging.Constants.LogLevel.VERBOSE)
+    Logging.log(`QueueManager: Executing ${this._queue.length} Commands`, Logging.Constants.LogLevel.VERBOSE);
     Promise.all(this._queue.map(qi => _blockTask(qi)))
       .then(Logging.Promise.logArray('Twitter Results: ', Logging.Constants.LogLevel.DEBUG))
       // .then(queue => {
