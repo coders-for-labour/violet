@@ -31,8 +31,8 @@ var _blockTask = queueItem => {
 
   return new Promise((resolve, reject) => {
     twitter.post(queueItem.api, queueItem.params, function(error, data, response) {
-      Logging.log(`Twitter: ${queueItem.api}`, Logging.Constants.LogLevel.VERBOSE);
-      Logging.log(data, Logging.Constants.LogLevel.VERBOSE);
+      Logging.log(`Twitter: ${queueItem.api}`, Logging.Constants.LogLevel.DEBUG);
+      Logging.log(data, Logging.Constants.LogLevel.DEBUG);
       if (error) {
         resolve(false);
         return;
@@ -60,9 +60,12 @@ class TwitterQueueManager {
   }
 
   flushQueue() {
-    Logging.log(`QueueManager: Flushing ${this._queue.length} Calls`);
+    Logging.log(`QueueManager: Executing ${this._queue.length} Commands`, Logging.Constants.LogLevel.VERBOSE)
     Promise.all(this._queue.map(qi => _blockTask(qi)))
-      .then(Logging.Promise.logArray('Twitter Executed: ', Logging.Constants.LogLevel.INFO))
+      .then(Logging.Promise.logArray('Twitter Results: ', Logging.Constants.LogLevel.DEBUG))
+      // .then(queue => {
+      //   this._queue = queue.filter(qi => qi.repeating);
+      // })
       .catch(err => Logging.log(err));
     this._queue = [];
   }
@@ -186,7 +189,7 @@ var _loadBlocklist = app => {
         });
         // Logging.log(list);
         Logging.log(data[0], Logging.Constants.LogLevel.DEBUG);
-        Logging.log(`Blocklist Length: ${data.length}`, Logging.Constants.LogLevel.INFO);
+        Logging.log(`Loaded Blocklist: ${data.length}`, Logging.Constants.LogLevel.INFO);
         app.blockList = list;
         app.blockListCount = data.length;
       });
@@ -194,7 +197,7 @@ var _loadBlocklist = app => {
 };
 
 module.exports.init = app => {
-  setTimeout(_loadBlocklist, 60000 * 5, app);
+  setInterval(_loadBlocklist, 60000 * 5, app);
   _loadBlocklist(app);
 
   app.get('/api/twitter/statuses', _getStatuses);
