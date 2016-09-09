@@ -20,4 +20,8 @@ export class AppComponent implements OnInit {
           $('#top-nav').collapse('hide'); // HACK: Stop-gap until we have proper Angular layout
     });
   }
+
+  public logout(): void {
+    window.location.href = `/logout?returnUrl=${window.location.pathname}`;
+  }
 }

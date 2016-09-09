@@ -33,6 +33,8 @@ var _imageNames = [
   "twibbon6.png"
 ];
 
+var choiceRange = `[1-${_imageNames.length}]`;
+console.log(choiceRange);
 var _images = [];
 var _cacheImages = () => {
   _images = _imageNames.map((name) => {
@@ -56,9 +58,15 @@ var _getOverlays = (req, res) => {
   return res.json(_imageNames);
 };
 
+var _save = (req, res) => {
+  // DO SAVING STUFF
+  res.send('null');
+  res.status(200).end();
+};
+
 module.exports.init = app => {
   _cacheImages();
-  app.get('/twibbon/:choice([1-6])', (req, res) => {
+  app.get(`/twibbon/:choice(${choiceRange})`, (req, res) => {
     var img = req.user.images.profile.replace('_normal', '');
     Logging.log(img);
     rest.get(img)
@@ -94,4 +102,5 @@ module.exports.init = app => {
   });
 
   app.get('/twibbon/overlay', _getOverlays);
+  app.post(`/twibbon/save/:choice(${choiceRange})`, _save);
 };

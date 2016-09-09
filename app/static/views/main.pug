@@ -17,9 +17,11 @@ nav.navbar.navbar-default
           | &nbsp;&nbsp;Twibbyns
     ul.nav.navbar-nav.navbar-right(*ngIf="user")
           li
-            a(href="/logout")
+            a(href="javascript:void(0)", (click)="logout()")
               i.fa.fa-lock 
               | &nbsp;&nbsp;Logout
 .main-page
   router-outlet 
-  
+#footer
+    h4 Made by Volunteers 
+    a.c4c-logo(href="http://www.codersforcorbyn.com", target="_blank")

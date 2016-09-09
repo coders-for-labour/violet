@@ -93,9 +93,44 @@
                 }
             }
 
-            &:first-child {
+            &.first {
                 margin-left: 15px;
             }
+
+            &.generated {
+                position: relative;
+                left: 26px;
+
+                .image {
+                    background-image: url(https://i0.wp.com/cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.16.1/images/loader-large.gif);
+                    background-repeat: no-repeat;
+                    background-position: center center;
+                    background-size: auto auto;
+                }
+            }
+        }
+    }
+
+    .generate-btn {
+        position: fixed;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 0;
+        z-index: 2;
+        background-color: @darkRed;
+        color: #fff;
+        font-weight: bold;
+        font-size: 40px;
+        padding: 10px 40px;
+        border-radius: 10px 10px 0 0;
+        text-transform: uppercase;
+        text-decoration: none;
+        cursor: pointer;
+        
+        @media only screen and (min-width : 768px) {
+            font-size: 50px;
+            padding: 20px 60px;
+            border-radius: 10px 10px 0 0;
         }
     }
 }

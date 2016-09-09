@@ -38,7 +38,7 @@ export class BlocklistComponent implements OnInit {
   }
 
   onLogin(): void {
-    window.location.href = "/auth/twitter";
+    this.authService.twitter();
   }
 
   getBlocklist(): void {

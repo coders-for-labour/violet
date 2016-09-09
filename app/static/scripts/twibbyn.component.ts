@@ -12,6 +12,9 @@ export class TwibbynComponent implements OnInit {
     public auth: Auth;
     public previewImageUrl: string = '';
     public choices: string[];
+    public generated: boolean = false;
+    public saving: boolean = false;
+    public saved: boolean = false;
     private choiceIndex: number = 0;
 
     constructor(
@@ -49,6 +52,10 @@ export class TwibbynComponent implements OnInit {
         return `/images/${choice}`;
     }
 
+    public getGeneratedImageUrl(): string {
+        return `/twibbon/${this.choiceIndex+1}`;
+    }
+
     private init(): void {
         var imageUrl = '/images/twibbyn-preview.jpg';
 
@@ -59,6 +66,23 @@ export class TwibbynComponent implements OnInit {
     }
 
     public onLogin(): void {
-        window.location.href = '/auth/twitter';
+        this.authService.twitter();
+    }
+
+    public generate(): void {
+        this.generated = true;
+    }
+
+    public save(): void {
+        this.saving = true;
+        this.twibbynService.save(this.choiceIndex + 1).then(() => {
+            this.saved = true;
+            this.saving = false;
+        });
+    }
+
+    public cancel(): void {
+        this.generated = false;
+        this.saved = false;
     }
 }

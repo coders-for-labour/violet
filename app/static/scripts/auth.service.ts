@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Location } from "@angular/common";
 import { Http, Headers, Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
@@ -21,6 +22,10 @@ export class AuthService {
       .catch(this.handleError);
 
     return this.authResult;
+  }
+
+  public twitter(): void { 
+    window.location.href = `/auth/twitter?returnUrl=${encodeURI(window.location.href)}`;
   }
 
   private handleError(error: any): Promise<any> {

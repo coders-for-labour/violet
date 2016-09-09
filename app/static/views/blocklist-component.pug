@@ -37,6 +37,3 @@
               .image([style.background-image]="'url(' + profile.images.profile.replace('_normal', '') + ')'")
               .name @{{profile.username}}
       a.block-btn(*ngIf="!working && !complete", (click)="onBlockAll()") Block
-  footer
-    h4 Made by Volunteers 
-    a.c4c-logo(href="http://www.codersforcorbyn.com", target="_blank")
