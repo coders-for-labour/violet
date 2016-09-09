@@ -17,9 +17,12 @@
       "VIOLET_TW_CONSUMER_SECRET": "",
       "VIOLET_TW_ACCESS_TOKEN": "",
       "VIOLET_TW_ACCESS_TOKEN_SECRET": "",
-      "VIOLET_BLOCKLIST_URL": ""
+      "VIOLET_BLOCKLIST_URL": "",
+      "VIOLET_RHIZOME_APP_TOKEN": ""
     },
     "workstation1": {
+      "rhizomeUrl": "http://dev.rhizome.com/api/v1",
+      "logPath": "/home/chris/Work/Workspaces/WebStorm/violet/logs",
       "callbackDomain": "http://dev.violet.com",
       "listenPort": {
         "dev": 6011,
@@ -36,6 +39,8 @@
       }
 	},
     "yubaba": {
+      "logPath": "/home/chris/apps/rhizome/logs",
+      "rhizomeUrl": "http://rhizome.codersforcorbyn.com/api/v1",
       "callbackDomain": "http://violet.codersforcorbyn.com",
       "listenPort": {
         "dev": 6011,
