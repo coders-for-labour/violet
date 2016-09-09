@@ -46,7 +46,9 @@
     "angular2-in-memory-web-api": "0.0.15",
     "bootstrap": "^3.3.6",
     "canvas": "^1.4.0",
-    "winston": "^2.2.0"
+    "winston": "^2.2.0",
+    "winston-logrotate": "^1.0.0",
+    "proxyquire": "^1.7.10"
   },
   "devDependencies": {
     "concurrently": "^2.0.0",
