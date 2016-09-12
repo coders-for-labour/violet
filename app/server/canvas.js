@@ -47,7 +47,7 @@ module.exports.init = app => {
 
   app.get('/banner/:choice([1-6])', (req, res) => {
     var banner = _banners[req.params.choice - 1];
-    var imgUrl = req.user.images.profile.replace('_normal', '');
+    // var imgUrl = req.user.images.profile.replace('_normal', '');
 
     var text = req.query.t;
 
