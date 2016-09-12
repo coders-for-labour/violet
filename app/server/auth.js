@@ -44,7 +44,7 @@ module.exports.init = app => {
     callbackURL: `${Config.callbackDomain}/auth/twitter/callback`
   },
   function(token, tokenSecret, profile, cb) {
-    Logging.log(profile, Logging.Constants.LogLevel.DEBUG);
+    Logging.log(profile, Logging.Constants.LogLevel.SILLY);
 
     var user = {
       app: 'twitter',
@@ -58,7 +58,7 @@ module.exports.init = app => {
       bannerImgUrl: profile._json.profile_banner_url
     };
     Logging.log(user, Logging.Constants.LogLevel.DEBUG);
-    Rhizome.Auth.findOrCreateUser(user).then(rhizomeUser => cb(null, rhizomeUser));
+    Rhizome.Auth.findOrCreateUser(user).then(rhizomeUser => cb(null, rhizomeUser)).catch(Logging.Promise.logError());
   }));
 
   passport.serializeUser((user, done) => {
