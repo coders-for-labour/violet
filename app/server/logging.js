@@ -13,24 +13,18 @@
  *
  */
 
-var winston = require('winston');
-var Config = require('./config');
+const proxyquire = require('proxyquire');
+const winston = require('winston');
+proxyquire('winston-logrotate', {
+  winston: winston
+});
+const Config = require('./config');
 require('sugar');
 
-const logFormat = Date.ISO8601_DATETIME;
-winston.remove(winston.transports.Console);
-winston.add(winston.transports.Console, {
-  colorize: 'all',
-  timestamp: () => Date.create().format(logFormat)
-});
-winston.addColors({
-  info: 'white',
-  error: 'red',
-  warn: 'yellow',
-  verbose: 'white',
-  debug: 'white'
-});
-
+/**
+ *
+ * @type {{ERR: string, WARN: string, INFO: string, VERBOSE: string, DEBUG: string, SILLY: string, DEFAULT: string}}
+ */
 var LogLevel = {
   ERR: 'error',
   WARN: 'warn',
@@ -44,8 +38,49 @@ var LogLevel = {
 module.exports.Constants = {
   LogLevel: LogLevel
 };
-// var _logLevel = Config.env === 'dev' || Config.env === 'test' ? LogLevel.INFO : LogLevel.WARN;
-winston.level = Config.env === 'dev' || Config.env === 'test' ? LogLevel.DEBUG : LogLevel.INFO;
+
+/**
+ *
+ */
+
+winston.remove(winston.transports.Console);
+winston.add(winston.transports.Console, {
+  name: 'info-console',
+  colorize: 'all',
+  timestamp: true,
+  level: 'info'
+});
+winston.add(winston.transports.Rotate, {
+  name: 'debug-file',
+  json: false,
+  file: `${Config.logPath}/log-debug.log`,
+  level: 'debug',
+  keep: 2,
+  colorize: 'all',
+  timestamp: true
+});
+winston.add(winston.transports.Rotate, {
+  name: 'verbose-file',
+  json: false,
+  file: `${Config.logPath}/log-verbose.log`,
+  colorize: 'all',
+  level: 'verbose',
+  timestamp: true
+});
+winston.add(winston.transports.Rotate, {
+  name: 'error-file',
+  json: false,
+  file: `${Config.logPath}/log-err.log`,
+  level: 'error',
+  timestamp: true
+});
+winston.addColors({
+  info: 'white',
+  error: 'red',
+  warn: 'yellow',
+  verbose: 'white',
+  debug: 'white'
+});
 
 /**
  *
@@ -54,23 +89,7 @@ winston.level = Config.env === 'dev' || Config.env === 'test' ? LogLevel.DEBUG :
  * @private
  */
 function _log(log, level) {
-  if (typeof log === 'string') {
-    winston.log(level, log);
-  } else {
-    winston.log(level, '', log);
-  }
-  // if (_logLevel >= level) {
-  //   if (typeof log === 'string') {
-  //     winston.log()
-  //     // console.log(`${logPrefix()} - ${log}`);
-  //     // _stream.write(`${logPrefix()} - ${log}\n`);
-  //   } else {
-  //     // _stream.write(`${logPrefix()}\n`);
-  //     // _stream.write(JSON.stringify(log) + '\n');
-  //     // console.log(`${logPrefix()}`);
-  //     // console.log(log);
-  //   }
-  // }
+  winston.log(level, log);
 }
 
 /**
@@ -78,7 +97,8 @@ function _log(log, level) {
  */
 
 module.exports.setLogLevel = level => {
-  winston.level = level;
+  // winston.level = level;
+  // cLogger.level = level;
   // _logLevel = level;
 };
 
@@ -107,6 +127,21 @@ module.exports.Promise.log = (log, level) => {
   return res => {
     _log(`${log}: ${res}`, level);
     return res;
+  };
+};
+
+/**
+ * @param {integer} level - level to log at
+ * @return {function(*)} - returns a function for chaining into a promise
+ */
+module.exports.Promise.logError = () => {
+  var level = LogLevel.ERR;
+  return err => {
+    _log(`ERROR: ${err}`, level);
+    if (err instanceof Error) {
+      _log(err, level);
+    }
+    return err;
   };
 };
 
