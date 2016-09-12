@@ -68,9 +68,9 @@ var configureApp = env => {
     store: new LevelStore(Config.sessionStorePath)
   }));
 
+  app.use(express.static(`${__dirname}/static`));
   app.use(passport.initialize());
   app.use(passport.session());
-  app.use(express.static(`${__dirname}/static`));
 
   auth.init(app);
   twitter.init(app);

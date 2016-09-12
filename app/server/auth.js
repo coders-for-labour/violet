@@ -14,6 +14,7 @@ var Logging = require('./logging');
 var Config = require('./config');
 var passport = require('passport');
 var TwitterStrategy = require('passport-twitter');
+var rhizome = require('./rhizome').instance();
 
 module.exports.init = app => {
   app.get('/api/auth', (req, res) => {
@@ -43,29 +44,32 @@ module.exports.init = app => {
     callbackURL: `${Config.callbackDomain}/auth/twitter/callback`
   },
   function(token, tokenSecret, profile, cb) {
-    Logging.log(profile, Logging.Constants.LogLevel.VERBOSE);
-    return cb(null, {
+    Logging.log(profile, Logging.Constants.LogLevel.DEBUG);
+
+    var user = {
+      app: 'twitter',
       id: profile.id,
       token: token,
       tokenSecret: tokenSecret,
       name: profile._json.name,
       username: profile.username,
-      images: {
-        profile: profile._json.profile_image_url,
-        banner: profile._json.profile_banner_url
-      }
-    });
+      profileUrl: `https://twitter.com/${profile.username}`,
+      profileImgUrl: profile._json.profile_image_url,
+      bannerImgUrl: profile._json.profile_banner_url
+    };
+    Logging.log(user, Logging.Constants.LogLevel.DEBUG);
+    rhizome.findOrCreateUser(user).then(rhizomeUser => cb(null, rhizomeUser));
   }));
 
   passport.serializeUser((user, done) => {
-    // Logging.log("serialise");
-    // Logging.log(user);
+    Logging.log('Auth Serialise User', Logging.Constants.LogLevel.VERBOSE);
+    Logging.log(user, Logging.Constants.LogLevel.DEBUG);
     done(null, user);
   });
 
   passport.deserializeUser((user, done) => {
-    // Logging.log("deserialise");
-    // Logging.log(user);
+    Logging.log('Auth Deserialise User', Logging.Constants.LogLevel.VERBOSE);
+    Logging.log(user, Logging.Constants.LogLevel.DEBUG);
     done(null, user);
   });
 };
