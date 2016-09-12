@@ -22,6 +22,7 @@ var passport = require('passport');
 var auth = require('./auth');
 var twitter = require('./twitter');
 var Canvas = require('./canvas');
+var Rhizome = require('./rhizome');
 
 /**
  * Express
@@ -59,7 +60,7 @@ var configureApp = env => {
   app.use(bodyParser.urlencoded({extended: true}));
   app.use(methodOverride());
 
-  Logging.log(Config, Logging.Constants.LogLevel.VERBOSE);
+  // Logging.log(Config, Logging.Constants.LogLevel.VERBOSE);
 
   app.use(session({
     saveUninitialized: false,
@@ -75,6 +76,10 @@ var configureApp = env => {
   auth.init(app);
   twitter.init(app);
   Canvas.init(app);
+  Rhizome.init({
+    rhizomeUrl: Config.rhizomeUrl,
+    appToken: Config.VIOLET_RHIZOME_APP_TOKEN
+  });
 
   switch (env) {
     default:
