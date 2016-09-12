@@ -45,11 +45,11 @@ module.exports.Constants = {
 
 winston.remove(winston.transports.Console);
 winston.add(winston.transports.Console, {
+  name: 'info-console',
   colorize: 'all',
   timestamp: true,
   level: 'info'
 });
-
 winston.add(winston.transports.Rotate, {
   name: 'debug-file',
   json: false,
@@ -71,7 +71,7 @@ winston.add(winston.transports.Rotate, {
   name: 'error-file',
   json: false,
   file: `${Config.logPath}/log-err.log`,
-  level: 'err',
+  level: 'error',
   timestamp: true
 });
 winston.addColors({
@@ -90,11 +90,6 @@ winston.addColors({
  */
 function _log(log, level) {
   winston.log(level, log);
-  // if (typeof log === 'string') {
-  //   winston.log(level, log);
-  // } else {
-  //   winston.log(level, '', log);
-  // }
 }
 
 /**
@@ -102,7 +97,8 @@ function _log(log, level) {
  */
 
 module.exports.setLogLevel = level => {
-  winston.level = level;
+  // winston.level = level;
+  // cLogger.level = level;
   // _logLevel = level;
 };
 
@@ -131,6 +127,21 @@ module.exports.Promise.log = (log, level) => {
   return res => {
     _log(`${log}: ${res}`, level);
     return res;
+  };
+};
+
+/**
+ * @param {integer} level - level to log at
+ * @return {function(*)} - returns a function for chaining into a promise
+ */
+module.exports.Promise.logError = () => {
+  var level = LogLevel.ERR;
+  return err => {
+    _log(`ERROR: ${err}`, level);
+    if (err instanceof Error) {
+      _log(err, level);
+    }
+    return err;
   };
 };
 
