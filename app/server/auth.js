@@ -18,7 +18,14 @@ var Rhizome = require('./rhizome');
 
 module.exports.init = app => {
   app.get('/api/auth', (req, res) => {
-    res.json(req.user ? {username: req.user.username, name: req.user.name, images: req.user.images} : null);
+    res.json(req.user ? {
+      username: req.user.username,
+      name: req.user.name,
+      images: {
+        profile: req.user.profileImgUrl,
+        banner: req.user.bannerImgUrl
+      }
+    } : null);
   });
 
   app.get('/logout', function(req, res) {
