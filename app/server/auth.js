@@ -45,29 +45,32 @@ module.exports.init = app => {
 
   setupPassport();
 
+  /**
+   * @param {string} returnUrl -
+   */
   function setupPassport(returnUrl) {
     passport.use(new TwitterStrategy({
-        consumerKey: Config.VIOLET_TW_CONSUMER_KEY,
-        consumerSecret: Config.VIOLET_TW_CONSUMER_SECRET,
-        callbackURL: `${Config.callbackDomain}/auth/twitter/callback?returnUrl=${returnUrl}`
-      },
-      function (token, tokenSecret, profile, cb) {
-        Logging.log(profile, Logging.Constants.LogLevel.SILLY);
+      consumerKey: Config.VIOLET_TW_CONSUMER_KEY,
+      consumerSecret: Config.VIOLET_TW_CONSUMER_SECRET,
+      callbackURL: `${Config.callbackDomain}/auth/twitter/callback?returnUrl=${returnUrl}`
+    },
+    function(token, tokenSecret, profile, cb) {
+      Logging.log(profile, Logging.Constants.LogLevel.SILLY);
 
-        var user = {
-          app: 'twitter',
-          id: profile.id,
-          token: token,
-          tokenSecret: tokenSecret,
-          name: profile._json.name,
-          username: profile.username,
-          profileUrl: `https://twitter.com/${profile.username}`,
-          profileImgUrl: profile._json.profile_image_url,
-          bannerImgUrl: profile._json.profile_banner_url
-        };
-        Logging.log(user, Logging.Constants.LogLevel.DEBUG);
-        Rhizome.Auth.findOrCreateUser(user).then(rhizomeUser => cb(null, rhizomeUser)).catch(Logging.Promise.logError());
-      }));
+      var user = {
+        app: 'twitter',
+        id: profile.id,
+        token: token,
+        tokenSecret: tokenSecret,
+        name: profile._json.name,
+        username: profile.username,
+        profileUrl: `https://twitter.com/${profile.username}`,
+        profileImgUrl: profile._json.profile_image_url,
+        bannerImgUrl: profile._json.profile_banner_url
+      };
+      Logging.log(user, Logging.Constants.LogLevel.DEBUG);
+      Rhizome.Auth.findOrCreateUser(user).then(rhizomeUser => cb(null, rhizomeUser)).catch(Logging.Promise.logError());
+    }));
   }
 
   passport.serializeUser((user, done) => {
