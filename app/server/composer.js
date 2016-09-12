@@ -25,13 +25,14 @@ var _memCache = null;
  * @class Composer
  */
 class Composer {
-  constructor(width, height) {
+  constructor(width, height, toBuffer) {
     this._width = width;
     this._height = height;
     this._id = '';
     this._renderQueue = [];
     this._cache = _cache;
-    this._noCache = true;
+    this._noCache = false;
+    this._toBuffer = toBuffer;
   }
 
   disableCache() {
@@ -42,8 +43,8 @@ class Composer {
     this._id += `${param},${value}`;
     this._renderQueue.push(context => {
       return new Promise((resolve, reject) => {
-        Logging.log(`Setting Context: ${param} -> ${value}`, Logging.Constants.LogLevel.VERBOSE);
-        Logging.log(context.ctx, Logging.Constants.LogLevel.VERBOSE);
+        Logging.log(`Setting Context: ${param} -> ${value}`, Logging.Constants.LogLevel.DEBUG);
+        Logging.log(context.ctx, Logging.Constants.LogLevel.DEBUG);
         context.ctx[param] = value;
         resolve(context);
       });
@@ -58,12 +59,12 @@ class Composer {
       return new Promise((resolve, reject) => {
         rest.get(imgUrl)
           .on('success', (data, response) => {
-            Logging.log(`Rendering Image`, Logging.Constants.LogLevel.VERBOSE);
-            Logging.log(o, Logging.Constants.LogLevel.VERBOSE);
+            Logging.log(`Rendering Image`, Logging.Constants.LogLevel.DEBUG);
+            Logging.log(o, Logging.Constants.LogLevel.DEBUG);
             var image = new Image();
             image.dataMode = Image.MODE_IMAGE;
             image.onload = () => {
-              Logging.log('Loaded Image', Logging.Constants.LogLevel.VERBOSE);
+              Logging.log('Loaded Image', Logging.Constants.LogLevel.DEBUG);
               context.ctx.drawImage(image, o.left, o.top, o.width, o.height);
               resolve(context);
             };
@@ -85,12 +86,12 @@ class Composer {
 
     this._renderQueue.push(context => {
       return new Promise((resolve, reject) => {
-        Logging.log(`Rendering Image`, Logging.Constants.LogLevel.VERBOSE);
+        Logging.log(`Rendering Image`, Logging.Constants.LogLevel.DEBUG);
         // Logging.log(o, Logging.Constants.LogLevel.INFO);
         var image = new Image();
         image.dataMode = Image.MODE_IMAGE;
         image.onload = () => {
-          Logging.log('Loaded Image', Logging.Constants.LogLevel.VERBOSE);
+          Logging.log('Loaded Image', Logging.Constants.LogLevel.DEBUG);
           context.ctx.drawImage(image, o.left, o.top, o.width, o.height);
           resolve(context);
         };
@@ -105,7 +106,7 @@ class Composer {
 
     this._renderQueue.push(context => {
       return new Promise((resolve, reject) => {
-        Logging.log(`Rendering Text`, Logging.Constants.LogLevel.VERBOSE);
+        Logging.log(`Rendering Text`, Logging.Constants.LogLevel.DEBUG);
 
         Logging.log(o, Logging.Constants.LogLevel.INFO);
         Logging.log(text, Logging.Constants.LogLevel.VERBOSE);
@@ -133,10 +134,15 @@ class Composer {
   render() {
     var cachedFile = this._cache.tryLoadCachedImage(this._id);
     if (this._noCache || cachedFile === false) {
+      if (this._noCache === true) {
+        Logging.log(`COMPOSER: FORCE NO CACHE`, Logging.Constants.LogLevel.WARN);
+      }
+      Logging.log(`Rendering Fresh Image`, Logging.Constants.LogLevel.DEBUG);
       return this._doRender();
     }
 
-    return Promise.resolve(fs.createReadStream(cachedFile));
+    Logging.log(`Image From Cache: ${cachedFile}`, Logging.Constants.LogLevel.DEBUG);
+    return Promise.resolve(this._toBuffer ? fs.readFileSync(cachedFile) : fs.createReadStream(cachedFile));
   }
 
   _options(options) {
@@ -158,12 +164,12 @@ class Composer {
     var p = Promise.resolve({canvas: canvas, ctx: canvas.getContext('2d')});
 
     this._renderQueue.push(context => {
-      Logging.log('Render', Logging.Constants.LogLevel.VERBOSE);
+      Logging.log('Render', Logging.Constants.LogLevel.DEBUG);
 
       var buffer = canvas.toBuffer();
 
       var cachedFile = this._cache.addImage(buffer, this._id);
-      return Promise.resolve(fs.createReadStream(cachedFile));
+      return Promise.resolve(this._toBuffer ? fs.readFileSync(cachedFile) : fs.createReadStream(cachedFile));
     });
 
     return this._renderQueue.reduce((prev, curr) => {
@@ -238,21 +244,21 @@ class Cache {
   tryLoadCachedImage(options) {
     var filename = this._genFilename(options);
     if (fs.existsSync(`${Config.imageCachePath}/${filename}`)) {
-      Logging.log(`Image Cache HIT: ${filename}`, Logging.Constants.LogLevel.INFO);
+      Logging.log(`Image Cache HIT: ${filename}`, Logging.Constants.LogLevel.DEBUG);
       return `${Config.imageCachePath}/${filename}`;
     }
 
-    Logging.log(`Image Cache MISS: ${filename}`, Logging.Constants.LogLevel.INFO);
+    Logging.log(`Image Cache MISS: ${filename}`, Logging.Constants.LogLevel.DEBUG);
 
     return false;
   }
 
   addImage(buffer, id) {
-    Logging.log(`Hash Input: ${id}`, Logging.Constants.LogLevel.VERBOSE);
+    Logging.log(`Hash Input: ${id}`, Logging.Constants.LogLevel.DEBUG);
     var filename = this._genFilename(id);
-    Logging.log(`Hash Output: ${filename}`, Logging.Constants.LogLevel.VERBOSE);
+    Logging.log(`Hash Output: ${filename}`, Logging.Constants.LogLevel.DEBUG);
     fs.writeFileSync(`${Config.imageCachePath}/${filename}`, buffer);
-    Logging.log(`Hash Pathname: ${Config.imageCachePath}\\${filename}`, Logging.Constants.LogLevel.VERBOSE);
+    Logging.log(`Hash Pathname: ${Config.imageCachePath}/${filename}`, Logging.Constants.LogLevel.DEBUG);
     return `${Config.imageCachePath}/${filename}`;
   }
 

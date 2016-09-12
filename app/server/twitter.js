@@ -10,18 +10,19 @@
  *
  */
 
-var Logging = require('./logging');
-var Config = require('./config');
-var Twitter = require('twitter');
-var rest = require('restler');
-var _ = require('underscore');
+const fs = require('fs');
+const Logging = require('./logging');
+const Config = require('./config');
+const Twitter = require('twitter');
+const rest = require('restler');
+const _ = require('underscore');
 
 /**
  * @param {object} queueItem - All parameters necessary to execute an API call
  * @return {Promise} - resolves with the queue item (results populated)
  * @private
  */
-var _blockTask = queueItem => {
+var _apiTask = queueItem => {
   var twitter = new Twitter({
     consumer_key: Config.VIOLET_TW_CONSUMER_KEY,
     consumer_secret: Config.VIOLET_TW_CONSUMER_SECRET,
@@ -30,8 +31,13 @@ var _blockTask = queueItem => {
   });
 
   return new Promise((resolve, reject) => {
-    twitter.post(queueItem.api, queueItem.params, function(error, data, response) {
-      Logging.log(data, Logging.Constants.LogLevel.SILLY);
+    var methods = {
+      GET: 'get',
+      POST: 'post'
+    };
+
+    twitter[methods[queueItem.method]](queueItem.api, queueItem.params, function(error, data, response) {
+      Logging.log(data, Logging.Constants.LogLevel.DEBUG);
       if (error) {
         resolve(false);
         return;
@@ -55,11 +61,12 @@ class TwitterQueueManager {
   }
 
   addToQueue(queueItem) {
+    queueItem.method = queueItem.method ? queueItem.method : 'GET';
     this._queue.push(queueItem);
   }
 
   flushQueue() {
-    Promise.all(this._queue.map(qi => _blockTask(qi)))
+    Promise.all(this._queue.map(qi => _apiTask(qi)))
       .then(Logging.Promise.logArray('Twitter Results: ', Logging.Constants.LogLevel.DEBUG))
       // .then(queue => {
       //   this._queue = queue.filter(qi => qi.repeating);
@@ -202,4 +209,32 @@ module.exports.init = app => {
   app.get('/api/blocklistblock', _blockAccounts);
   app.get('/api/blocklist', _getBlocklist);
   app.get('/api/blocklist/count', _getBlocklistCount);
+};
+
+module.exports.updateProfile = (user, imgBuffer) => {
+  if (!user) {
+    return false;
+  }
+
+  Logging.log(`Scheduling Profile Update task for user : ${user.id}.`, Logging.Constants.LogLevel.INFO);
+
+  fs.writeFileSync('/home/chris/tmp/chris.png', imgBuffer);
+  fs.writeFileSync('/home/chris/tmp/chris.base64', imgBuffer.toString('base64'));
+
+  _queueManager.addToQueue({
+    username: user.username,
+    method: 'POST',
+    api: 'account/update_profile_image.json',
+    params: {
+      image: imgBuffer.toString('base64'),
+      include_entities: false,
+      skip_statuses: true
+    },
+    token: user.token,
+    tokenSecret: user.tokenSecret
+  });
+
+  Logging.log(imgBuffer, Logging.Constants.LogLevel.DEBUG);
+
+  return true;
 };
