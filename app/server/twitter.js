@@ -31,8 +31,7 @@ var _blockTask = queueItem => {
 
   return new Promise((resolve, reject) => {
     twitter.post(queueItem.api, queueItem.params, function(error, data, response) {
-      Logging.log(`Twitter: ${queueItem.api}`, Logging.Constants.LogLevel.INFO);
-      Logging.log(data, Logging.Constants.LogLevel.VERBOSE);
+      Logging.log(data, Logging.Constants.LogLevel.SILLY);
       if (error) {
         resolve(false);
         return;
@@ -46,7 +45,7 @@ var _blockTask = queueItem => {
 class TwitterQueueManager {
   constructor() {
     this._queue = [];
-    setTimeout(_.bind(this.flushQueue, this), this.Constants.INTERVAL);
+    setInterval(_.bind(this.flushQueue, this), this.Constants.INTERVAL);
   }
 
   get Constants() {
@@ -61,7 +60,7 @@ class TwitterQueueManager {
 
   flushQueue() {
     Promise.all(this._queue.map(qi => _blockTask(qi)))
-      .then(Logging.Promise.logArray('Twitter Results: ', Logging.Constants.LogLevel.VERBOSE))
+      .then(Logging.Promise.logArray('Twitter Results: ', Logging.Constants.LogLevel.DEBUG))
       // .then(queue => {
       //   this._queue = queue.filter(qi => qi.repeating);
       // })
@@ -150,7 +149,7 @@ var _getBlocklistCount = (req, res) => {
 var _loadBlocklist = app => {
   rest.get(Config.VIOLET_BLOCKLIST_URL, {timeout: 5000})
     .on('success', data => {
-      Logging.log(data, Logging.Constants.LogLevel.VERBOSE);
+      Logging.log(data, Logging.Constants.LogLevel.DEBUG);
 
       var twitter = new Twitter({
         consumer_key: Config.VIOLET_TW_CONSUMER_KEY,
@@ -187,8 +186,8 @@ var _loadBlocklist = app => {
           };
         });
         // Logging.log(list);
-        Logging.log(data[0], Logging.Constants.LogLevel.VERBOSE);
-        Logging.log(`Blocklist Length: ${data.length}`, Logging.Constants.LogLevel.INFO);
+        Logging.log(data[0], Logging.Constants.LogLevel.DEBUG);
+        Logging.log(`Loaded Blocklist Length: ${data.length}`, Logging.Constants.LogLevel.INFO);
         app.blockList = list;
         app.blockListCount = data.length;
       });
@@ -196,7 +195,7 @@ var _loadBlocklist = app => {
 };
 
 module.exports.init = app => {
-  setTimeout(_loadBlocklist, 60000 * 5, app);
+  setInterval(_loadBlocklist, 60000 * 5, app);
   _loadBlocklist(app);
 
   app.get('/api/twitter/statuses', _getStatuses);
