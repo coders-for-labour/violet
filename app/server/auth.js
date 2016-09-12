@@ -14,7 +14,7 @@ var Logging = require('./logging');
 var Config = require('./config');
 var passport = require('passport');
 var TwitterStrategy = require('passport-twitter');
-var rhizome = require('./rhizome').instance();
+var Rhizome = require('./rhizome');
 
 module.exports.init = app => {
   app.get('/api/auth', (req, res) => {
@@ -58,7 +58,7 @@ module.exports.init = app => {
       bannerImgUrl: profile._json.profile_banner_url
     };
     Logging.log(user, Logging.Constants.LogLevel.DEBUG);
-    rhizome.findOrCreateUser(user).then(rhizomeUser => cb(null, rhizomeUser));
+    Rhizome.Auth.findOrCreateUser(user).then(rhizomeUser => cb(null, rhizomeUser));
   }));
 
   passport.serializeUser((user, done) => {
