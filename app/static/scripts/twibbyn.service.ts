@@ -11,7 +11,7 @@ export class TwibbynService {
         if (this.choices)
             return Promise.resolve(this.choices);
 
-        return this.http.get('/twibbon/overlay')
+        return this.http.get('/twibbyn/overlay')
             .toPromise()
             .then(response => response.json() as string[])
             .then(choices => this.choices = choices)
@@ -19,7 +19,7 @@ export class TwibbynService {
     }
 
     public save(choice: number): Promise<void> {
-        return this.http.post(`/twibbon/save/${choice}`, null)
+        return this.http.post(`/twibbyn/save/${choice}`, null)
             .toPromise()
             .catch(this.handleError);
     }

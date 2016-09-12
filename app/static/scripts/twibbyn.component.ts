@@ -18,7 +18,7 @@ export class TwibbynComponent implements OnInit {
     private choiceIndex: number = 0;
 
     constructor(
-        private authService: AuthService, 
+        private authService: AuthService,
         private twibbynService: TwibbynService) {}
 
     public ngOnInit(): void {
@@ -49,11 +49,11 @@ export class TwibbynComponent implements OnInit {
             return '';
 
         var choice = this.choices[this.choiceIndex];
-        return `/images/${choice}`;
+        return `/images/twibbyn/${choice}`;
     }
 
     public getGeneratedImageUrl(): string {
-        return `/twibbon/${this.choiceIndex+1}`;
+        return `/twibbyn/${this.choiceIndex+1}`;
     }
 
     private init(): void {
