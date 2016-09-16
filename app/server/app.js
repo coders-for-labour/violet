@@ -10,19 +10,19 @@
  *
  */
 
-var express = require('express');
-var methodOverride = require('method-override');
-var bodyParser = require('body-parser');
-var session = require('express-session');
-var LevelStore = require('level-session-store')(session);
-var morgan = require('morgan');
-var Logging = require('./logging');
-var Config = require('./config');
-var passport = require('passport');
-var auth = require('./auth');
-var twitter = require('./twitter');
-var Canvas = require('./canvas');
-var Rhizome = require('./rhizome');
+const express = require('express');
+const methodOverride = require('method-override');
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const LevelStore = require('level-session-store')(session);
+const morgan = require('morgan');
+const Logging = require('./logging');
+const Config = require('./config');
+const passport = require('passport');
+const auth = require('./auth');
+const twitter = require('./twitter');
+const Canvas = require('./canvas');
+const Rhizome = require('./rhizome');
 
 /**
  * Express
@@ -73,28 +73,26 @@ var configureApp = env => {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  auth.init(app);
-  twitter.init(app);
-  Canvas.init(app);
   Rhizome.init({
     rhizomeUrl: Config.rhizomeUrl,
     appToken: Config.VIOLET_RHIZOME_APP_TOKEN
   });
 
+  auth.init(app);
+  twitter.init(app);
+  Canvas.init(app);
+
   switch (env) {
     default:
     case 'development': {
       configureDevelopment();
-    }
-      break;
+    } break;
     case 'production': {
       configureProduction();
-    }
-      break;
+    } break;
     case 'test': {
       configureTest();
-    }
-      break;
+    } break;
   }
 };
 
