@@ -14,7 +14,7 @@ var Logging = require('./logging');
 var Config = require('./config');
 var passport = require('passport');
 var TwitterStrategy = require('passport-twitter');
-var Rhizome = require('./rhizome');
+var Rhizome = require('rhizome-api-js');
 
 module.exports.init = app => {
   app.get('/api/auth', (req, res) => {

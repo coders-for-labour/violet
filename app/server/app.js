@@ -22,7 +22,7 @@ const passport = require('passport');
 const auth = require('./auth');
 const twitter = require('./twitter');
 const Canvas = require('./canvas');
-const Rhizome = require('./rhizome');
+const Rhizome = require('rhizome-api-js');
 
 /**
  * Express
