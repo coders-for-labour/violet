@@ -48,7 +48,8 @@
     "canvas": "^1.4.0",
     "winston": "^2.2.0",
     "winston-logrotate": "^1.0.0",
-    "proxyquire": "^1.7.10"
+    "proxyquire": "^1.7.10",
+    "rhizome-api-js": "^0.0.x"
   },
   "devDependencies": {
     "concurrently": "^2.0.0",
