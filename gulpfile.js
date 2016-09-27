@@ -223,8 +223,27 @@ gulp.task('build', ['clean'], function() {
   return gulp.start('app-scripts', 'type-scripts', 'scripts', 'views', 'styles-app', 'bower-files', 'resources', 'images');
 });
 
+gulp.task('bump-major', function() {
+  return gulp.src(['./bower.json', './package.json', './README.md'])
+    .pipe(bump({type: 'major'}))
+    .pipe(gulp.dest('./'));
+});
+
+gulp.task('bump-minor', function() {
+  return gulp.src(['./bower.json', './package.json', './README.md'])
+    .pipe(bump({type: 'minor'}))
+    .pipe(gulp.dest('./'));
+});
+
+gulp.task('bump-patch', function() {
+  return gulp.src(['./bower.json', './package.json', './README.md'])
+    .pipe(bump({type: 'patch'}))
+    .pipe(gulp.dest('./'));
+});
+
 gulp.task('bump-prerelease', function() {
   return gulp.src(['./bower.json', './package.json', './README.md'])
     .pipe(bump({type: 'prerelease'}))
     .pipe(gulp.dest('./'));
 });
+
