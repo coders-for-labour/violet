@@ -1,0 +1,39 @@
+.blocklist-component
+  header#header
+    .container
+      .logo
+      h1 Fake Blocker
+      p A tool for blocking fake
+        br 
+        | and abusive Twitter accounts
+ 
+  section.count Currently blocking {{blocklistCount}} Twitter accounts
+  .container
+    .logged-out(*ngIf="!auth")
+      .intro Block all fake Momentum accounts with the button below.
+        br
+        | New accounts will be added as they emerge so please check back to update your block list.
+        br
+        | This blocker is part of Violet, an open-source suite of social media tools for Labour activists. Please check back as we release new features and 
+        a(href="mailto:info@codersforcorbyn.com") contact us 
+        | if you are interested in contributing to this project.
+        br
+        | Get blocking!
+      a.login-btn(href="javascript:void(0)",(click)="onLogin()")
+        i.fa.fa-twitter
+        br
+        | Login with Twitter
+
+    div(*ngIf="auth")
+      .block-intro
+        h3 You are logged in as {{auth.name}} 
+        p(*ngIf="!complete") You are about to block the following Twitter accounts:
+        .alert.alert-danger(*ngIf="error") {{error}}
+        .alert.alert-success(*ngIf="result") {{result}}
+      div.list-wrapper(*ngIf="!complete")
+        ul.blocklist
+          li( *ngFor="let profile of blocklist")
+            .profile
+              .image([style.background-image]="'url(' + profile.images.profile.replace('_normal', '') + ')'")
+              .name @{{profile.username}}
+      a.block-btn(*ngIf="!working && !complete", (click)="onBlockAll()") Block

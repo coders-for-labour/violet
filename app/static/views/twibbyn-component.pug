@@ -1,0 +1,49 @@
+.twibbyn-component
+    header#header
+        .container
+        h1 Twibbyns
+        p Corbynate your Twitter avatar!
+    .container
+        div(*ngIf="!generated && !saved")
+            .intro Choose your Twibbyn below to add it to your Twitter avatar!
+            .preview
+                .row.no-margin
+                    .col-xs-3.first
+                        .image([style.backgroundImage]="'url(' + previewImageUrl + ')'")
+                    .col-xs-1 
+                        span.operator +
+                    .col-xs-3 
+                        .image
+                            .overlay([style.backgroundImage]="'url(' + getOverlayImageUrl() + ')'")
+                            span.prev((click)="previousChoice()")
+                                i.fa.fa-arrow-left
+                            span.next((click)="nextChoice()")
+                                i.fa.fa-arrow-right
+                    .col-xs-1 
+                        span.operator =
+                    .col-xs-3
+                        .image([style.backgroundImage]="'url(' + previewImageUrl + ')'")
+                            .overlay([style.backgroundImage]="'url(' + getOverlayImageUrl() + ')'")
+
+        div(*ngIf="generated && !saved")
+            .intro Here's your generated Twibbyn, click the save button to update your Twitter profile!
+            .preview
+                .row.no-margin
+                    .col-xs-3.col-xs-offset-4.generated
+                        .image
+                            .overlay([style.backgroundImage]="'url(' + getGeneratedImageUrl() + ')'")
+            .intro(*ngIf="!saving")
+                a.btn.btn-danger((click)="cancel()") Cancel
+        div(*ngIf="saved")
+            .alert.alert-success Your Twitter avatar has been Corbybinated!
+            .intro
+                a.btn.btn-danger((click)="cancel()") Change your Twibbyn
+        
+        .logged-out(*ngIf="!auth")
+            .intro Use the button below to log into Twitter so you can use a Twibbyn!
+            a.login-btn(href="javascript:void(0)",(click)="onLogin()")
+                i.fa.fa-twitter
+                br
+                | Login with Twitter
+    a.generate-btn(*ngIf="auth && !generated && !saved", (click)="generate()") Generate
+    a.generate-btn(*ngIf="auth && generated && !saved && !saving", (click)="save()") Save 

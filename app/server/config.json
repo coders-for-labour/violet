@@ -1,0 +1,59 @@
+{
+  "global": {
+    "app": {
+      "title": "Violet",
+      "description": "Social media tools for grassroots movements.",
+      "code": "violet",
+      "version": "v0.0.1",
+      "protocol": "http",
+      "subdomain": "violet",
+      "domain": "codersforcorbyn.com"
+    }
+  },
+  "local": {
+    "environment": {
+      "VIOLET_SERVER_ID": "",
+      "VIOLET_TW_CONSUMER_KEY": "",
+      "VIOLET_TW_CONSUMER_SECRET": "",
+      "VIOLET_TW_ACCESS_TOKEN": "",
+      "VIOLET_TW_ACCESS_TOKEN_SECRET": "",
+      "VIOLET_BLOCKLIST_URL": "",
+      "VIOLET_RHIZOME_APP_TOKEN": ""
+    },
+    "workstation1": {
+      "rhizomeUrl": "http://dev.rhizome.com/api/v1",
+      "logPath": "/home/chris/Work/Workspaces/WebStorm/violet/logs",
+      "userDataPath": "/home/chris/Work/Workspaces/WebStorm/violet/user_data",
+      "sessionStorePath": "/home/chris/tmp/sessionDb",
+      "imageCachePath": "/home/chris/tmp/imageCache",
+      "callbackDomain": "http://dev.violet.com",
+      "listenPort": {
+        "dev": 6011,
+        "prod": 6010,
+        "test": 6012
+      }
+    },
+	"kriskit": {
+      "sessionStorePath": "/home/kris/",
+      "callbackDomain": "http://dev.violet.com:6011",
+      "listenPort": {
+        "dev": 6011,
+        "prod": 6010,
+        "test": 6012
+      }
+	},
+    "yubaba": {
+      "rhizomeUrl": "http://rhizome.codersforcorbyn.com/api/v1",
+      "userDataPath": "/home/chris/apps/violet/user_data",
+      "logPath": "/home/chris/apps/violet/logs",
+      "imageCachePath": "/home/chris/tmp/imageCache",
+      "sessionStorePath": "/home/chris/tmp/sessionDb",
+      "callbackDomain": "http://violet.codersforcorbyn.com",
+      "listenPort": {
+        "dev": 6011,
+        "prod": 6010,
+        "test": 6012
+      }
+    }
+  }
+}

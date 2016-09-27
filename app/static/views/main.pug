@@ -1,0 +1,27 @@
+nav.navbar.navbar-default
+  div.navbar-header
+    button.navbar-toggle.collapsed(type="button", data-toggle="collapse", data-target="#top-nav", aria-expanded="false")
+      span.sr-only Toggle navigation
+      span.icon-bar
+      span.icon-bar
+      span.icon-bar
+  div#top-nav.collapse.navbar-collapse
+    ul.nav.navbar-nav
+      li(routerLinkActive="active")
+        a([routerLink]="['/blocker']") 
+          i.fa.fa-shield
+          | &nbsp;&nbsp;Fake Blocker
+      li(routerLinkActive="active")
+        a([routerLink]="['/twibbyn']") 
+          i.fa.fa-twitter
+          | &nbsp;&nbsp;Twibbyns
+    ul.nav.navbar-nav.navbar-right(*ngIf="user")
+          li
+            a(href="javascript:void(0)", (click)="logout()")
+              i.fa.fa-lock 
+              | &nbsp;&nbsp;Logout
+.main-page
+  router-outlet 
+#footer
+    h4 Made by Volunteers 
+    a.c4c-logo(href="http://www.codersforcorbyn.com", target="_blank")

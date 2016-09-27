@@ -1,0 +1,7 @@
+.dashboard-page
+  #logged-out(*ngIf="!auth")
+    h3 Log in
+    button.btn.btn-default.btn-lrg(type="button", (click)="onLogin()") Login
+
+  #loggedin(*ngIf="auth")
+    h3 Welcome {{auth.name}}

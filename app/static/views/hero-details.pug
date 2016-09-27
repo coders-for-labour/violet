@@ -1,0 +1,14 @@
+.hero-details-page
+  .error(*ngIf="error") {{error}}
+  #hero(*ngIf="hero")
+    h2 {{hero.name}} Details
+    div
+      label id:
+      |  {{hero.id}}
+    div
+      label name:
+      input([(ngModel)]="hero.name" placeholder="name")
+
+    button((click)="goBack()") Back
+    button((click)="save()") Save
+

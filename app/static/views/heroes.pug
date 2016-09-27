@@ -1,0 +1,17 @@
+.heroes-page
+  .error(*ngIf="error") {{error}}
+  #heroes
+    .heroes
+      li( *ngFor="let hero of heroes",
+          [class.selected]="hero === selectedHero",
+          (click)="onSelect(hero)")
+        span.badge {{hero.id}}
+        |  {{hero.name}}
+        button.delete-button((click)="deleteHero(hero, $event)") Delete
+  button((click)="addHero()") Add New Hero
+  .mini-detail(*ngIf="selectedHero")
+    h2 {{selectedHero.name || uppercase}} is my hero
+    button((click)="gotoDetail()") View Details
+  div(*ngIf="addingHero")
+    my-hero-detail((close)="close($event)")
+

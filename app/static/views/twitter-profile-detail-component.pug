@@ -1,0 +1,5 @@
+.twitter-profile-detail-component
+  #profile(*ngIf="profile")
+    img(src="{{profile.images.profile}}")
+    h2 {{profile.name}}
+    button.btn.btn-default((click)="goBack()") Go Back
