@@ -1,4 +1,5 @@
-# violet
+# violet 
+### version: 1.0.0-2
 Social tools for grassroots movements.
 ## Prerequisites ##
 Assuming you've installed Node 4.x.x and npm 2.15.x
