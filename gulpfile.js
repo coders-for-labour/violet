@@ -12,6 +12,7 @@ var bower = require('gulp-bower');
 var bowerfiles = require('main-bower-files');
 var typescript = require('gulp-typescript');
 var tscConfig = require('./tsconfig.json');
+const bump = require('gulp-bump');
 // var tsProject = typescript.createProject('tsconfig.json');
 
 /**
@@ -220,4 +221,10 @@ gulp.task('clean', function() {
  */
 gulp.task('build', ['clean'], function() {
   return gulp.start('app-scripts', 'type-scripts', 'scripts', 'views', 'styles-app', 'bower-files', 'resources', 'images');
+});
+
+gulp.task('bump-prerelease', function() {
+  return gulp.src(['./bower.json', './package.json', './README.md'])
+    .pipe(bump({type: 'prerelease'}))
+    .pipe(gulp.dest('./'));
 });
