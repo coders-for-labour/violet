@@ -41,3 +41,6 @@ app/static/components
 
 #Webstorm settings
 .idea
+
+# node-gyp configuration
+*.gypi
